@@ -1,0 +1,10 @@
+{
+    "Integraa": true,
+    "User": true,
+    "Quotation": true,
+    "Order": true,
+    "Product": true,
+    "PriceList": true,
+    "FinancialCoverage": true,
+    "Doctor": true
+}

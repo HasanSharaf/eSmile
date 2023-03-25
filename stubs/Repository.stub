@@ -1,0 +1,63 @@
+<?php
+
+namespace DummyNamespace;
+
+use App\Repositories\BaseRepository;
+use App\Repositories\EloquentRepositoryInterface;
+use Modules\DummyModule\Entities\DummyModel;
+
+class DummyClass extends BaseRepository implements EloquentRepositoryInterface
+{
+    /**
+       * Instantiate reporitory
+       * 
+       * @param DummyModel $model
+       */
+    public function __construct(DummyModule $model)
+    {
+        parent::__construct($model);
+    }
+
+      /**
+     * get all LowerDummyModel.
+     * @return LowerDummyModel
+     */
+    public  function getAllDummyModel()
+    {   
+    
+        return DummyModel::all();
+    }
+    /**
+     * create a new LowerDummyModel.
+     * @param Request $request
+     * @return Role
+     */
+    public function create($attributes)
+    {
+        return DummyModel::create($attributes);
+    }
+
+     /**
+     * edit a  LowerDummyModel.
+     * @param Request $request
+     * @return LowerDummyModel
+     */
+    public function edit($data,$id)
+    {
+        $LowerDummyModel = DummyModel::find($id)->update([
+           
+        ]);
+        return $LowerDummyModel;
+    }
+
+      /**
+     * delet a  LowerDummyModel.
+     * @param Request $request
+     * @return DummyModel
+     */
+    public function deleteDummyModel($id)
+    {
+        $LowerDummyModel = DummyModel::find($id)->delete();
+        return $LowerDummyModel;  
+    }
+}

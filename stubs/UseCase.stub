@@ -1,0 +1,45 @@
+<?php
+
+namespace DummyNamespace;
+
+ use App\Shared\UseCaseResult;
+ use App\Models\ResponseStatus;
+ use Modules\DummyModule\Repositories\DummyModuleRepository;
+use Modules\DummyModule\Http\Resources\DummyModuleResource;
+
+/**
+ * Class DummyClass
+ *
+ * @package Modules\DummyModule\UseCases
+ */
+class DummyClass 
+{
+ private $LowerDummyModuleRepository ;
+       /**
+     * Class constructor
+     *
+     **/
+    public function __construct(DummyModuleRepository $LowerDummyModuleRepository )
+    {
+        $this->LowerDummyModuleRepository = $LowerDummyModuleRepository;
+      
+    }
+
+     /**
+     *  LowerDummyModule.
+     *  @param
+     * @return UseCaseResult
+     */
+    public function execute(){
+        try {
+            $result = $this->LowerDummyModuleRepository->LowerClassName();
+            return new UseCaseResult(ResponseStatus::successCode,new DummyModuleResource($result), $result->count(), '');
+        } catch (\Throwable $th) {
+           $message = $th->getMessage();
+            if(config('app.debug'))
+            $message .= ' in file: '.$th->getFile() . ' line: '. $th->getLine();
+           return new UseCaseResult( ResponseStatus::baseErrorCode, null, 0,$message);
+        }
+      
+    }
+}
