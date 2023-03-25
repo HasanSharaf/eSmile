@@ -11,7 +11,24 @@ use Modules\User\Entities\User;
 
 class UserRepository extends EloquentBaseRepository
 {
+    /**
+    * Create User (Register)
+    * @return User
+    */
+    public  function register($data)
+    {
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'phone_number' => $data['phone_number'],
+            'address' => $data['address'],
 
+        ]);
+
+        $user->save();
+        return $user;
+    }
 
     /**
      * get all user.
@@ -63,15 +80,15 @@ class UserRepository extends EloquentBaseRepository
         return  $user;
     }
 
-    /**
-     * Get List of users
-     * @return User
-     */
-    public function listQuotationIntialdata()
-    {
-        $result = $this->model->whereIn('tipo', EQuotationClientType::CLIENT_TYPES_ARR)->select('id', 'name', 'vat', 'tipo')->get();
-        return  $result;
-    }
+    // /**
+    //  * Get List of users
+    //  * @return User
+    //  */
+    // public function listQuotationIntialdata()
+    // {
+    //     $result = $this->model->whereIn('tipo', EQuotationClientType::CLIENT_TYPES_ARR)->select('id', 'name', 'vat', 'tipo')->get();
+    //     return  $result;
+    // }
 
     /**
      * get a user by id.

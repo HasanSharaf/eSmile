@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('users')->group(function() {
-    Route::get('/', 'UserController@index');
-    Route::post('/', 'UserController@create');
-    Route::get('list/agencies', 'UserController@listAgencies');
-    Route::get('/list/clients', 'UserController@listClients');
-    Route::get('/list/contactsCrm', 'UserController@listContactsCrm');
-    Route::get('/list/agents', 'UserController@listAgents');
-    Route::get('/get/creatorInfo', 'UserController@getCreatorInfo');
+    Route::post('/register', 'UserController@register');
+   
 });

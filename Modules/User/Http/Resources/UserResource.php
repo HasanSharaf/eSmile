@@ -19,13 +19,15 @@ class UserResource extends BaseResource
             return [
                 'id' => $item->id ?? null,
                 'name' => $item->name ?? null,
-                'tipo' => $item->tipo ?? null,
-                'typology'=> $item->typology ?? null,
-                'financial_status' => $item->financial_status ?? null,
-                'integraa_id' => $item->integraa_id ?? null,
-                'parent_id' => $item->parent ? $item->parent->id : null,
-                'parent_integraa_id' => $item->parent_id,
-                'vat' => $item->vat
+                'email' => $item->email ?? null,
+                'password'=> $item->password ?? null,
+                'phone_number' => $item->phone_number ?? null,
+                'address' => $item->address ?? null,
+                'status' => $item->status ?? null,
+                'approved_at' => $item->approved_at ?? null,
+                'approved_by' => $item->approved_by ?? null,
+                // 'role_id' => $item->role_id,
+                // 'clinic_id' => $item->clinic_id,
                 
             ];
         });
