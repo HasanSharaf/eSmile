@@ -10,12 +10,14 @@ use App\Http\Controllers\Controller as BaseController;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
+use Modules\User\Http\Requests\RegisterRequest;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\UseCases\GetCreatorInfo;
 use Modules\User\UseCases\ListAgencies;
 use Modules\User\UseCases\ListAgents;
 use Modules\User\UseCases\ListClients;
 use Modules\User\UseCases\ListContactsCrm;
+use Modules\User\UseCases\Register;
 
 class UserController extends BaseController
 {
@@ -25,10 +27,20 @@ class UserController extends BaseController
      * Class constructor
      *
      **/
-    public function __construct(UserRepository $userRepository)
+    public function __construct()
     {
-        $this->userRepository = $userRepository;
+
         parent::__construct();
+    }
+
+    /**
+    * Create User (Register).
+    * @return Response
+    */
+    public function register(RegisterRequest $request, Register $register)
+    {
+        $result =  $register->execute($request);
+        return $result;
     }
 
     /**

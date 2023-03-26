@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Modules\User\Models\EUserStatus;
 
 return new class extends Migration
 {
@@ -16,12 +17,15 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('tipo');
-            $table->string('typology');
-            $table->string('financial_status')->default('good');
-            $table->integer('integraa_id');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->integer('phone_number');
+            $table->string('address');
+            $table->enum('status',[EUserStatus::ACTIVE, EUserStatus::DEACTIVE])->default(EUserStatus::DEACTIVE);
+            $table->timestamp('approved_at')->useCurrent();
+            $table->string('approved_by')->nullable();
             $table->timestamp('created_at')->useCurrent();
-$table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 
