@@ -33,9 +33,12 @@ class Register
     public function execute($request){
         try {
             $result = $this->userRepository->register($request);
-            return new UseCaseResult(ResponseStatus::successCreate,new UserResource($result), $result->count(), '');
+            return new UseCaseResult(ResponseStatus::successCreate, new UserResource($result), $result->count(), '');
         } catch (\Throwable $th) {
-            return new UseCaseResult(ResponseStatus::baseErrorCode, null, 0,$th->getMessage());
+            $message = $th->getMessage();
+            if (config('app.debug'))
+                $message .= ' in file: ' . $th->getFile() . ' line: ' . $th->getLine();
+            return new UseCaseResult(ResponseStatus::baseErrorCode, null, 0, $message);
         }
       
     }

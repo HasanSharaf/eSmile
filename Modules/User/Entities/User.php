@@ -2,21 +2,14 @@
 
 namespace Modules\User\Entities;
 
-use App\Helpers\Classes\PermissionHolder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\DB;
-use Modules\Integraa\Entities\UserPermission;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Modules\PriceList\Entities\PriceList;
-use Modules\Quotation\Entities\DefaultFixedItem;
-use Modules\Quotation\Entities\FixedItem;
 
-class User extends Authenticatable
+class User extends Model
 {
     use HasFactory;
 
-    protected $table = 'users';
+ protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
@@ -28,22 +21,5 @@ class User extends Authenticatable
         'approved_by',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
 }

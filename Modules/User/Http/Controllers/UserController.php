@@ -4,35 +4,12 @@ namespace Modules\User\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Modules\User\UseCases\ListUsers;
-use Modules\User\UseCases\CreateUser;
-use App\Http\Controllers\Controller as BaseController;
-use Modules\User\Entities\User;
-use Modules\User\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller;
 use Modules\User\Http\Requests\RegisterRequest;
-use Modules\User\Repositories\UserRepository;
-use Modules\User\UseCases\GetCreatorInfo;
-use Modules\User\UseCases\ListAgencies;
-use Modules\User\UseCases\ListAgents;
-use Modules\User\UseCases\ListClients;
-use Modules\User\UseCases\ListContactsCrm;
 use Modules\User\UseCases\Register;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
-    private $userRepository;
-
-    /**
-     * Class constructor
-     *
-     **/
-    public function __construct()
-    {
-
-        parent::__construct();
-    }
-
     /**
     * Create User (Register).
     * @return Response
@@ -45,69 +22,70 @@ class UserController extends BaseController
 
     /**
      * Display a listing of the resource.
-     * @return Response
+     * @return Renderable
      */
-    public function index(Request $request)
+    public function index()
     {
-        // $this->authorize('listUsers', User::class);
-        $result =  (new ListUsers($this->userRepository))->execute($request);
-        return $this->handleResponse($result);
+        return view('user::index');
     }
 
     /**
-     * Create a new user.
+     * Show the form for creating a new resource.
      * @return Renderable
      */
-    public function create(UserRequest $request)
+    public function create()
     {
-        $this->authorize('create', User::class);
-        $result =  (new CreateUser($this->userRepository))->execute($request);
-        return $this->handleResponse($result);
+        return view('user::create');
     }
 
     /**
-     * List Agencies.
+     * Store a newly created resource in storage.
+     * @param Request $request
      * @return Renderable
      */
-    public function listAgencies(Request $request)
+    public function store(Request $request)
     {
-        $result =  (new ListAgencies($this->userRepository))->execute($request);
-        return $this->handleResponse($result);
+        //
     }
-      /**
-     * List Agencies.
+
+    /**
+     * Show the specified resource.
+     * @param int $id
      * @return Renderable
      */
-    public function listClients(Request $request)
+    public function show($id)
     {
-        $result =  (new ListClients($this->userRepository))->execute($request);
-        return $this->handleResponse($result);
+        return view('user::show');
     }
-      /**
-     * List Agencies.
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
      * @return Renderable
      */
-    public function listContactsCrm(Request $request)
+    public function edit($id)
     {
-        $result =  (new ListContactsCrm($this->userRepository))->execute($request);
-        return $this->handleResponse($result);
+        return view('user::edit');
     }
-      /**
-     * List Agencies.
+
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $id
      * @return Renderable
      */
-    public function listAgents(Request $request)
+    public function update(Request $request, $id)
     {
-        $result =  (new ListAgents($this->userRepository))->execute($request);
-        return $this->handleResponse($result);
+        //
     }
-      /**
-     * List Agencies.
+
+    /**
+     * Remove the specified resource from storage.
+     * @param int $id
      * @return Renderable
      */
-    public function getCreatorInfo()
+    public function destroy($id)
     {
-        $result =  (new GetCreatorInfo($this->userRepository))->execute();
-        return $this->handleResponse($result);
+        //
     }
 }

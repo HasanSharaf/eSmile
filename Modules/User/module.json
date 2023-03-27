@@ -7,7 +7,5 @@
     "providers": [
         "Modules\\User\\Providers\\UserServiceProvider"
     ],
-    "aliases": {},
-    "files": [],
-    "requires": []
+    "files": []
 }
