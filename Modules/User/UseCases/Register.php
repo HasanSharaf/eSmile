@@ -30,17 +30,18 @@ class Register
      * register.
      * @return User
      */
-    public function execute($request){
+    public function execute($request)
+    {
         try {
-            $result = $this->userRepository->register($request);
-            return new UseCaseResult(ResponseStatus::successCreate, new UserResource($result), $result->count(), '');
+            $user = $this->userRepository->register($request);
+            return new UseCaseResult(ResponseStatus::successCreate, new UserResource([$user]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
-            if (config('app.debug'))
+            if (config('app.debug')) {
                 $message .= ' in file: ' . $th->getFile() . ' line: ' . $th->getLine();
+            }
             return new UseCaseResult(ResponseStatus::baseErrorCode, null, 0, $message);
         }
-      
     }
   
 

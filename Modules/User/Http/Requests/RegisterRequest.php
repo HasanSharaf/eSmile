@@ -14,11 +14,16 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:50',
-            'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|min:8|max:255',
-            'phone_number' => 'required|numeric|min:10',
-            'address' => 'required|string|min:3|max:255',
+            'name' => ['required', 'string','max:50'],
+            'email' => ['required', 'string','email','unique:users','max:255'],
+            'password' => [
+            'required',
+            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            'min:8',
+            'max:255'
+            ],
+            'phone_number' => ['required', 'numeric','min:10'],
+            'address' => ['required', 'string','min:3','max:255'],
             
         ];
     }

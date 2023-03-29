@@ -4,20 +4,34 @@ namespace Modules\User\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use Modules\User\Http\Requests\RegisterRequest;
+use Modules\User\Repositories\UserRepository;
 use Modules\User\UseCases\Register;
 
 class UserController extends Controller
 {
+    private $userRepository;
+    
+    /**
+     * Class constructor
+     *
+     **/
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+        
+    
+    }
+
     /**
     * Create User (Register).
     * @return Response
     */
     public function register(RegisterRequest $request, Register $register)
     {
-        $result =  $register->execute($request);
-        return $result;
+        $result = $register->execute($request);
+        return $this->handleResponse($result);
     }
 
     /**

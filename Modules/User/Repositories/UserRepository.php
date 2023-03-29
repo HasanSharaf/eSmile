@@ -23,8 +23,6 @@ class UserRepository extends EloquentBaseRepository
             'address' => $data['address'],
 
         ]);
-
-        $user->save();
         return $user;
     }
 
