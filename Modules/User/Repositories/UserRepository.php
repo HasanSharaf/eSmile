@@ -5,7 +5,11 @@ namespace Modules\User\Repositories;
 use App\Helpers\Classes\Translator;
 use App\Repositories\BaseRepository;
 use App\Repositories\EloquentBaseRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Modules\User\Entities\User;
+use Laravel\Sanctum\PersonalAccessToken;
+
 
 class UserRepository extends EloquentBaseRepository
 {
@@ -18,11 +22,21 @@ class UserRepository extends EloquentBaseRepository
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'phone_number' => $data['phone_number'],
             'address' => $data['address'],
 
         ]);
+        return $user;
+    }
+
+    /**
+    * Login
+    * @return User
+    */
+    public  function login($request)
+    {
+        $user = User::where('email', $request['email'])->first();
         return $user;
     }
 

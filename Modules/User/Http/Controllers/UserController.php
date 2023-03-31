@@ -5,8 +5,10 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Requests\RegisterRequest;
 use Modules\User\Repositories\UserRepository;
+use Modules\User\UseCases\Login;
 use Modules\User\UseCases\Register;
 
 class UserController extends Controller
@@ -31,6 +33,16 @@ class UserController extends Controller
     public function register(RegisterRequest $request, Register $register)
     {
         $result = $register->execute($request);
+        return $this->handleResponse($result);
+    }
+
+    /**
+    * Login User.
+    * @return Response
+    */
+    public function login(LoginRequest $request, Login $login)
+    {
+        $result = $login->execute($request);
         return $this->handleResponse($result);
     }
 
