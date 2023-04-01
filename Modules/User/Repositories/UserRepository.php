@@ -40,6 +40,45 @@ class UserRepository extends EloquentBaseRepository
         return $user;
     }
 
+    /**
+    * Logout
+    * @return User
+    */
+    public  function logout()
+    {
+        $logout = Auth::logout();
+        return $logout;
+    }
+
+    /**
+    * Update User
+    * @return User
+    */
+    public  function updateUser($data,$userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->name = $data['name'] ?? $user->name;
+        $user->email = $data['email'] ?? $user->email;
+        $user->password = Hash::make($data['password']) ?? $user->password;
+        $user->address = $data['address'] ?? $user->address;
+        $user->phone_number = $data['phone_number'] ?? $user->phone_number;
+        $user->save();
+        return $user;
+    }
+
+    /**
+    * Delete User
+    * @return User
+    */
+    public  function deleteUser($userId)
+    {
+        $user = User::find($userId);
+        if (!$user)
+            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+        $user->delete();
+        return $user;
+    }
+
     // /**
     //  * get all user.
     //  * @return User

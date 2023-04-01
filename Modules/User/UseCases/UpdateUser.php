@@ -6,14 +6,13 @@ use Modules\User\Entities\User;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Http\Resources\UserResource;
 use App\Models\ResponseStatus;
-use Modules\User\Http\Resources\UserLoginResource;
 
 /**
- * Class Logout
+ * Class UpdateUser
  *
  * @package Modules\User\UseCases
  */
-class Logout
+class UpdateUser
 {
 
    private $userRepository ;
@@ -28,20 +27,20 @@ class Logout
     }
 
     /**
-     * logout.
+     * Update User.
      * @return User
      */
-    public function execute($request)
+    public function execute($data,$userId)
     {
         try {
-            $user = $this->userRepository->logout($request);
-            return new UseCaseResult(ResponseStatus::successCode, 1, 1, '');
+            $user = $this->userRepository->UpdateUser($data,$userId);
+            return new UseCaseResult(ResponseStatus::successCode, new UserResource([$user]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {
                 $message .= ' in file: ' . $th->getFile() . ' line: ' . $th->getLine();
             }
-            return response()->json(['error' => $message], 500);
+            return new UseCaseResult(ResponseStatus::baseErrorCode, null, 0, $message);
         }
     }
   

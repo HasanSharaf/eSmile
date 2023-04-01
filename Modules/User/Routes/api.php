@@ -15,7 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('users')->group(function() {
+    //Login API's
     Route::post('/register', 'UserController@register');
     Route::post('/login', 'UserController@login');
-   
+    Route::post('/logout/{id}', 'UserController@logout');
+    //CRUD API's
+    Route::put('/updateUser/{id}', 'UserController@updateUser');
+    Route::delete('/deleteUser/{id}', 'UserController@deleteUser');
+
 });

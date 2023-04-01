@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Requests\RegisterRequest;
+use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Repositories\UserRepository;
+use Modules\User\UseCases\DeleteUser;
 use Modules\User\UseCases\Login;
+use Modules\User\UseCases\Logout;
 use Modules\User\UseCases\Register;
+use Modules\User\UseCases\UpdateUser;
 
 class UserController extends Controller
 {
@@ -44,6 +48,39 @@ class UserController extends Controller
     {
         $result = $login->execute($request);
         return $this->handleResponse($result);
+    }
+
+    /**
+    * Logout User.
+    * @return Response
+    */
+    public function logout(Request $request, Logout $logout)
+    {
+        $result = $logout->execute($request);
+        return $this->handleResponse($result);
+        
+    }
+
+    /**
+    * Update User.
+    * @return Response
+    */
+    public function updateUser(UpdateUserRequest $request, $userId, UpdateUser $updateUser)
+    {
+        $result = $updateUser->execute($request,$userId);
+        return $this->handleResponse($result);
+        
+    }
+
+    /**
+    * Delete User.
+    * @return Response
+    */
+    public function deleteUser($userId, DeleteUser $deleteUser)
+    {
+        $result = $deleteUser->execute($userId);
+        return $this->handleResponse($result);
+        
     }
 
     /**
