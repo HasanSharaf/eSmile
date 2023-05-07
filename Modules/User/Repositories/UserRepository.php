@@ -20,11 +20,14 @@ class UserRepository extends EloquentBaseRepository
     public  function register($data)
     {
         $user = User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'gender' => $data['gender'],
             'phone_number' => $data['phone_number'],
-            'address' => $data['address'],
+            'location' => $data['location'],
+            'location_details' => $data['location_details'],
 
         ]);
         return $user;
@@ -57,11 +60,14 @@ class UserRepository extends EloquentBaseRepository
     public  function updateUser($data,$userId)
     {
         $user = User::findOrFail($userId);
-        $user->name = $data['name'] ?? $user->name;
+        $user->first_name = $data['first_name'] ?? $user->first_name;
+        $user->last_name = $data['last_name'] ?? $user->last_name;
         $user->email = $data['email'] ?? $user->email;
         $user->password = Hash::make($data['password']) ?? $user->password;
-        $user->address = $data['address'] ?? $user->address;
+        $user->gender = $data['gender'] ?? $user->gender;
         $user->phone_number = $data['phone_number'] ?? $user->phone_number;
+        $user->location = $data['location'] ?? $user->location;
+        $user->location_details = $data['location_details'] ?? $user->location_details;
         $user->save();
         return $user;
     }
@@ -79,6 +85,51 @@ class UserRepository extends EloquentBaseRepository
         return $user;
     }
 
+    /**
+     * get Quotation query.
+     * @param Quotation
+     */
+    public function getUserQuery()
+    {
+        $result = User::orderBy('id', 'desc')->first();
+        return $result;
+    }
+
+    /**
+     * Get Pagination Data By Query.
+     *
+     */
+    public  function getPaginationDataByQuery($data, $query)
+    {
+        $result = $query->paginate($data['per_page']);
+        return $result;
+    }
+
+    /**
+     * get last inserted user.
+     * @return User
+     */
+    public function getLastUser()
+    {
+        $user = User::orderBy('id', 'desc')->first();
+        return $user;
+    }
+
+    // /**
+    // * Get All Users.
+    // * @return User
+    // */
+    // public  function getAllUsers($userId)
+    // {
+    //     $user = User::find($userId);
+    //     if (!$user)
+    //         throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+    //     $user->delete();
+    //     return $user;
+    // }
+
+    
+
     // /**
     //  * get all user.
     //  * @return User
@@ -86,7 +137,7 @@ class UserRepository extends EloquentBaseRepository
     // public  function getAllUsers($data, $name)
     // {
 
-    //     $query =  $this->model->query()
+    //     $query =  User::query()
     //         ->when($name, function ($query) use ($name) {
     //             $query->where('name', 'like', '%' . $name . '%');
     //         });

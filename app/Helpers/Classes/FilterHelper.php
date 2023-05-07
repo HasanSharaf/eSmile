@@ -3,8 +3,8 @@
 
 namespace App\Helpers\Classes;
 
+use App\Models\EFiltertype;
 use Carbon\Carbon;
-use Modules\Quotation\Models\EFiltertype;
 
 class FilterHelper
 {

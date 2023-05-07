@@ -22,5 +22,6 @@ Route::prefix('users')->group(function() {
     //CRUD API's
     Route::put('/updateUser/{id}', 'UserController@updateUser');
     Route::delete('/deleteUser/{id}', 'UserController@deleteUser');
+    Route::get('/getAllUsers', 'UserController@getAllUsers');
 
 });

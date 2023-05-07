@@ -10,6 +10,7 @@ use Modules\User\Http\Requests\RegisterRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\UseCases\DeleteUser;
+use Modules\User\UseCases\GetAllUsers;
 use Modules\User\UseCases\Login;
 use Modules\User\UseCases\Logout;
 use Modules\User\UseCases\Register;
@@ -79,6 +80,17 @@ class UserController extends Controller
     public function deleteUser($userId, DeleteUser $deleteUser)
     {
         $result = $deleteUser->execute($userId);
+        return $this->handleResponse($result);
+        
+    }
+
+    /**
+    * Get All Users.
+    * @return Response
+    */
+    public function getAllUsers(Request $request, GetAllUsers $getAllUsers)
+    {
+        $result = $getAllUsers->execute($request);
         return $this->handleResponse($result);
         
     }

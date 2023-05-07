@@ -3,6 +3,8 @@
 namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Modules\User\Models\EUserGender;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -14,16 +16,20 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['string','max:50'],
+            'first_name' => ['string','max:50'],
+            'last_name' => ['string','max:50'],
             'email' => ['string','email','unique:users','max:255'],
             'password' => [
             'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
             'min:8',
             'max:255'
             ],
+            'gender' => [
+                Rule::in(EUserGender::USER_ARR)
+            ],
             'phone_number' => ['numeric','min:10'],
-            'address' => ['string','min:3','max:255'],
-            
+            'location' => ['string','min:3','max:255'],
+            'location_details' => ['string','min:3','max:255'],
         ];
     }
 

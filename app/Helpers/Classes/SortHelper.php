@@ -6,6 +6,7 @@ namespace App\Helpers\Classes;
 use Carbon\Carbon;
 use Modules\Quotation\Models\EFiltertype;
 use Modules\Quotation\Models\QuotationSortKey;
+use Modules\User\Models\UserSortKey;
 
 class SortHelper
 {
@@ -44,7 +45,7 @@ class SortHelper
                 return $query;
             }
         } else {
-            return $query->orderBy(QuotationSortKey::DEFAULT_KEY, QuotationSortKey::DEFAULT_SORT);
+            return $query->orderBy(UserSortKey::DEFAULT_KEY, UserSortKey::DEFAULT_SORT);
         }
     }
 }
