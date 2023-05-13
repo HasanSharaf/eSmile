@@ -18,5 +18,7 @@ Route::prefix('appointments')->group(function() {
     Route::post('create/{id}', 'AppointmentController@createAppointment');
     Route::get('getUserAppointments/{id}', 'AppointmentController@getUserAppointments');
     Route::delete('deleteAppointment/{id}', 'AppointmentController@deleteAppointment');
+    Route::get('getAllAppointments', 'AppointmentController@listAppointments');
+
 
 });

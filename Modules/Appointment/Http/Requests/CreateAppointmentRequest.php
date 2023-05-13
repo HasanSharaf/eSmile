@@ -15,7 +15,7 @@ class CreateAppointmentRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'selected_time' => 'required|date_format:Y-m-d H:i:s',
+            'selected_time' => 'required|date_format:Y-m-d H:i',
             'note' => 'nullable|string',
             
         ];

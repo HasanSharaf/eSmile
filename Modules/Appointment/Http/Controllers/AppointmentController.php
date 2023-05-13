@@ -10,6 +10,8 @@ use Modules\Appointment\Repositories\AppointmentRepository;
 use Modules\Appointment\UseCases\CreateAppointment;
 use Modules\Appointment\UseCases\DeleteAppointment;
 use Modules\Appointment\UseCases\GetAppointmentsByUserId;
+use Modules\Appointment\UseCases\ListAppointment;
+use Modules\Appointment\UseCases\ListAppointments;
 
 class AppointmentController extends Controller
 {
@@ -54,6 +56,16 @@ class AppointmentController extends Controller
     {
         $result = $deleteAppointment->execute($id);
         return $this->handleResponse($result);
+    }
+
+    /**
+    * List Appointment.
+    * @return Response
+    */
+    public function listAppointments(Request $request, ListAppointments $listAppointments)
+    {
+        $appointments = $listAppointments->execute($request->all());
+        return $this->handleResponse($appointments);
     }
 
 }

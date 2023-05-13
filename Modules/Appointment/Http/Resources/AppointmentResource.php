@@ -13,7 +13,7 @@ class AppointmentResource extends BaseResource
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    public function toArray($item)
+    public function toArray($request)
     {
         try {
             $this->collection = $this->collection->map(function ($item) {
