@@ -32,23 +32,9 @@ class AppointmentRepository extends EloquentBaseRepository
         return $appointment;
     }
 
-    /**
-    * Update Appointment
-    * @return Appointment
-    */
-    public  function updateAppointment($data,$userId)
+    public function getAppointmentsByUserId($user_id)
     {
-        $user = Appointment::findOrFail($userId);
-        $user->first_name = $data['first_name'] ?? $user->first_name;
-        $user->last_name = $data['last_name'] ?? $user->last_name;
-        $user->email = $data['email'] ?? $user->email;
-        $user->password = Hash::make($data['password']) ?? $user->password;
-        $user->gender = $data['gender'] ?? $user->gender;
-        $user->phone_number = $data['phone_number'] ?? $user->phone_number;
-        $user->location = $data['location'] ?? $user->location;
-        $user->location_details = $data['location_details'] ?? $user->location_details;
-        $user->save();
-        return $user;
+        return Appointment::where('user_id', $user_id)->get();
     }
 
     /**

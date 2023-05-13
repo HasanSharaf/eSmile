@@ -16,10 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('appointments')->group(function() {
     Route::post('create/{id}', 'AppointmentController@createAppointment');
-    
-    // //CRUD API's
-    // Route::put('/updateUser/{id}', 'UserController@updateUser');
-    // Route::delete('/deleteUser/{id}', 'UserController@deleteUser');
-    // Route::get('/getAllUsers', 'UserController@getAllUsers');
+    Route::get('getUserAppointments/{id}', 'AppointmentController@getUserAppointments');
 
 });
