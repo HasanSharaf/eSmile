@@ -8,6 +8,7 @@ use Modules\Appointment\Entities\Appointment;
 use Modules\Appointment\Repositories\AppointmentRepository;
 use Modules\Appointment\Http\Resources\AppointmentResource;
 use App\Models\ResponseStatus;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class CreateAppointment
@@ -32,10 +33,10 @@ class CreateAppointment
      * Create Appointment.
      * @return Appointment
      */
-    public function execute($data)
+    public function execute($data,$user_id)
     {
         try {
-            $appointment = $this->appointmentRepository->create($data);
+            $appointment = $this->appointmentRepository->createAppointment($data);
             return new UseCaseResult(ResponseStatus::successCode, new AppointmentResource([$appointment]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();

@@ -20,7 +20,7 @@ class AppointmentRepository extends EloquentBaseRepository
     public  function createAppointment($data)
     {
         // Retrieve user details
-        $user = User::where('name', $data['user_name'])->firstOrFail();
+        $user = User::where('id', $data['user_id'])->firstOrFail();
         
         // Create appointment
         $appointment = Appointment::create([
