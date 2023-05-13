@@ -3,12 +3,8 @@
 namespace Modules\Appointment\Repositories;
 
 use App\Helpers\Classes\Translator;
-use App\Repositories\BaseRepository;
 use App\Repositories\EloquentBaseRepository;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Modules\Appointment\Entities\Appointment;
-use Laravel\Sanctum\PersonalAccessToken;
 use Modules\User\Entities\User;
 
 class AppointmentRepository extends EloquentBaseRepository
@@ -39,15 +35,15 @@ class AppointmentRepository extends EloquentBaseRepository
 
     /**
     * Delete Appointment
-    * @return User
+    * @return Appointment
     */
-    public  function deleteAppointment($userId)
+    public  function deleteAppointment($id)
     {
-        $user = Appointment::find($userId);
-        if (!$user)
-            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
-        $user->delete();
-        return $user;
+        $appointment = Appointment::find($id);
+        if (!$appointment)
+            throw new \Exception(Translator::translate("APPOINTMENTS.APPOINTMENT_NOT_FOUND"), 404);
+        $appointment->delete();
+        return $appointment;
     }
 
     /**

@@ -15,4 +15,7 @@ return [
         "WELCOME" => 'welcome',
         "USER_NOT_FOUND" => 'user not found',
     ],
+    "APPOINTMENTS" => [
+        "APPOINTMENT_NOT_FOUND" => 'Appointment not found',
+    ],
 ];

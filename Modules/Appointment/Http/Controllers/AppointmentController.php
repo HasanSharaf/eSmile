@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Modules\Appointment\Http\Requests\CreateAppointmentRequest;
 use Modules\Appointment\Repositories\AppointmentRepository;
 use Modules\Appointment\UseCases\CreateAppointment;
+use Modules\Appointment\UseCases\DeleteAppointment;
 use Modules\Appointment\UseCases\GetAppointmentsByUserId;
 
 class AppointmentController extends Controller
@@ -42,6 +43,16 @@ class AppointmentController extends Controller
     public function getUserAppointments($user_id, GetAppointmentsByUserId $getAppointmentsByUserId)
     {
         $result = $getAppointmentsByUserId->execute($user_id);
+        return $this->handleResponse($result);
+    }
+
+    /**
+    * Delete Appointment.
+    * @return Response
+    */
+    public function deleteAppointment($id, DeleteAppointment $deleteAppointment)
+    {
+        $result = $deleteAppointment->execute($id);
         return $this->handleResponse($result);
     }
 
