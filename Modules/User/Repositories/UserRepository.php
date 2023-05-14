@@ -86,13 +86,12 @@ class UserRepository extends EloquentBaseRepository
     }
 
     /**
-     * get Quotation query.
-     * @param Quotation
+     * Get User Query.
+     * @param User
      */
     public function getUserQuery()
     {
-        $result = User::orderBy('id', 'desc')->first();
-        return $result;
+        return User::first();
     }
 
     /**
@@ -106,88 +105,22 @@ class UserRepository extends EloquentBaseRepository
     }
 
     /**
-     * get last inserted user.
+     * Get last inserted user.
      * @return User
      */
     public function getLastUser()
     {
-        $user = User::orderBy('id', 'desc')->first();
+        $user = User::orderBy('id')->first();
         return $user;
     }
 
-    // /**
-    // * Get All Users.
-    // * @return User
-    // */
-    // public  function getAllUsers($userId)
-    // {
-    //     $user = User::find($userId);
-    //     if (!$user)
-    //         throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
-    //     $user->delete();
-    //     return $user;
-    // }
-
+    /**
+     * Get All Users.
+     * @return User
+     */
+    public function getAllUsers($data, $query)
+    {
+        return $query->paginate($data['per_page']);
+    }
     
-
-    // /**
-    //  * get all user.
-    //  * @return User
-    //  */
-    // public  function getAllUsers($data, $name)
-    // {
-
-    //     $query =  User::query()
-    //         ->when($name, function ($query) use ($name) {
-    //             $query->where('name', 'like', '%' . $name . '%');
-    //         });
-    //     return $query->paginate($data['per_page']);
-    // }
-
-
-    // /**
-    //  * edit a  user.
-    //  * @param Request $request
-    //  * @return user
-    //  */
-    // public function edit($data, $id)
-    // {
-    //     $user = $this->model->find($id)->update([]);
-    //     return $user;
-    // }
-
-    // /**
-    //  * delet a  user.
-    //  * @param Request $request
-    //  * @return User
-    //  */
-    // public function deleteUser($id)
-    // {
-    //     $user = $this->model->find($id)->delete();
-    //     return $user;
-    // }
-
-    // /**
-    //  * get a user by id.
-    //  * @return User
-    //  */
-    // public  function getUserById($id)
-    // {
-    //     $user = $this->model->find($id);
-    //     if (!$user)
-    //         throw new \Exception(Translator::translate('USERS.USER_NOT_FOUND'), 404);
-
-    //     return  $user;
-    // }
-
-    // /**
-    //  * Get List of users
-    //  * @return User
-    //  */
-    // public function listQuotationIntialdata()
-    // {
-    //     $result = $this->model->whereIn('tipo', EQuotationClientType::CLIENT_TYPES_ARR)->select('id', 'name', 'vat', 'tipo')->get();
-    //     return  $result;
-    // }
-
 }

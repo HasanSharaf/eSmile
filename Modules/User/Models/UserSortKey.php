@@ -6,11 +6,13 @@ namespace Modules\User\Models;
 class UserSortKey
 {
     public const ID = 'id';
-    public const NAME = 'name';
+    public const FIRST_NAME = 'first_name';
+    public const LAST_NAME = 'last_name';
     public const EMAIL = 'email';
     public const PHONE_NUMBER = 'phone_number';
-    public const ADDRESS = 'address';
-    public const STATUS  = 'status';
+    public const LOCATION = 'location';
+    public const LOCATION_DETAILS = 'location_details';
+    public const GENDER = 'gender';
 
 
     public const DEFAULT_KEY = 'id';
@@ -20,8 +22,11 @@ class UserSortKey
         self::ID =>[
             'column' => 'id',
         ],
-        self::NAME =>[
-            'column' => 'name',
+        self::FIRST_NAME =>[
+            'column' => 'first_name',
+        ],
+        self::LAST_NAME =>[
+            'column' => 'last_name',
         ],
         self::EMAIL =>[
             'column' => 'email',
@@ -29,11 +34,14 @@ class UserSortKey
         self::PHONE_NUMBER => [
             'column' => 'phone_number',
         ],
-        self::ADDRESS =>[
-            'column' => 'address',
+        self::LOCATION =>[
+            'column' => 'location',
         ],
-        self::STATUS =>[
-            'column' => 'status',
+        self::LOCATION_DETAILS =>[
+            'column' => 'location_details',
+        ],
+        self::GENDER =>[
+            'column' => 'gender',
         ],
         // self::PHONE_NUMBER => [
         //     'join' => [

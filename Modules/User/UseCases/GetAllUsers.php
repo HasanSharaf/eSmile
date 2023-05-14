@@ -4,6 +4,7 @@ namespace Modules\User\UseCases;
 
 use App\Helpers\Classes\DefaultKeysHelper;
 use App\Helpers\Classes\FilterHelper;
+use App\Helpers\Classes\SearchQueryHelper;
 use App\Helpers\Classes\SortHelper;
 use App\Helpers\Classes\Translator;
 use App\Shared\UseCaseResult;
@@ -40,14 +41,13 @@ class GetAllUsers
     public function execute($request)
     {
         try {
-            $data = DefaultKeysHelper::execute($request->all());
+            $data = DefaultKeysHelper::execute($request);
             $query = $this->userRepository->getUserQuery();
-            $filterQuery = FilterHelper::filter($request->all(), UserFilterKey::KEYS_ARR, $query);
-            // dd($filterQuery);
+            $filter_data = SearchQueryHelper::execute($request, ['first_name', 'last_name', 'email', 'phone_number', 'gender', 'location', 'location_details']);
+            $filterQuery = FilterHelper::filter($filter_data, UserFilterKey::KEYS_ARR, $query);
             $sortQuery = SortHelper::sort($data['order_key'], $data['order'], UserSortKey::KEYS_ARR, $filterQuery);
-            $result = $this->userRepository->getPaginationDataByQuery($data, $sortQuery);
-            // $user = $this->userRepository->getAllUsers($userId);
-            return new UseCaseResult(ResponseStatus::successCode, (new UserResource($result))->getResult($data,$result), $result->count(), '');
+            $result = $this->userRepository->getAllUsers($data, $sortQuery);
+            return new UseCaseResult(ResponseStatus::successCode, new UserResource($result, false), $result->count(), '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {
