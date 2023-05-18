@@ -200,7 +200,8 @@ return [
                 //register integraa auth,permissions, and session driver
                 //  App\Providers\IntegraSecurityProvider::class,
 
-                App\Providers\RepositoryServiceProvider::class
+                App\Providers\RepositoryServiceProvider::class,
+                Fruitcake\Cors\CorsServiceProvider::class,
 
         ],
 
