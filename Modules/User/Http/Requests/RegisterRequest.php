@@ -29,8 +29,10 @@ class RegisterRequest extends FormRequest
                 'required',Rule::in(EUserGender::USER_ARR)
             ],
             'phone_number' => ['required', 'numeric','min:10'],
+            'birthday' => ['required', 'date'],
             'location' => ['required', 'string','min:3','max:255'],
             'location_details' => ['required', 'string','min:3','max:255'],
+            'user_picture' => ['nullable', 'image','max:2048'],
             
         ];
     }

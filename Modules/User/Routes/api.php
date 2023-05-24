@@ -23,5 +23,7 @@ Route::prefix('users')->group(function() {
     Route::put('/updateUser/{id}', 'UserController@updateUser');
     Route::delete('/deleteUser/{id}', 'UserController@deleteUser');
     Route::get('/getAllUsers', 'UserController@getAllUsers');
+    Route::get('/getUserById/{id}', 'UserController@getUserById');
+
 
 });

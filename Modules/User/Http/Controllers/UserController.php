@@ -11,6 +11,7 @@ use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\UseCases\DeleteUser;
 use Modules\User\UseCases\GetAllUsers;
+use Modules\User\UseCases\GetUserById;
 use Modules\User\UseCases\Login;
 use Modules\User\UseCases\Logout;
 use Modules\User\UseCases\Register;
@@ -37,6 +38,8 @@ class UserController extends Controller
     */
     public function register(RegisterRequest $request, Register $register)
     {
+        $data = $request->validated();
+        $data['picture'] = $request->file('picture'); // Get the uploaded picture file
         $result = $register->execute($request);
         return $this->handleResponse($result);
     }
@@ -91,6 +94,17 @@ class UserController extends Controller
     public function getAllUsers(Request $request, GetAllUsers $getAllUsers)
     {
         $result = $getAllUsers->execute($request->all());
+        return $this->handleResponse($result);
+        
+    }
+
+    /**
+    * Get User By Id.
+    * @return Response
+    */
+    public function getUserById(Request $request, $userId,GetUserById $getUserById)
+    {
+        $result = $getUserById->execute($request,$userId);
         return $this->handleResponse($result);
         
     }
