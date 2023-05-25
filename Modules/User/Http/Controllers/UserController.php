@@ -38,8 +38,6 @@ class UserController extends Controller
     */
     public function register(RegisterRequest $request, Register $register)
     {
-        $data = $request->validated();
-        $data['picture'] = $request->file('picture'); // Get the uploaded picture file
         $result = $register->execute($request);
         return $this->handleResponse($result);
     }
