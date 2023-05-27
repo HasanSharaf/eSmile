@@ -1,4 +1,5 @@
 {
     "User": true,
-    "Appointment": true
+    "Appointment": true,
+    "Session": true
 }
