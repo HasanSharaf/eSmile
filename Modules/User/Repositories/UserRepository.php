@@ -7,6 +7,7 @@ use App\Repositories\BaseRepository;
 use App\Repositories\EloquentBaseRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Modules\User\Entities\User;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -79,6 +80,18 @@ class UserRepository extends EloquentBaseRepository
         $user->phone_number = $data['phone_number'] ?? $user->phone_number;
         $user->location = $data['location'] ?? $user->location;
         $user->location_details = $data['location_details'] ?? $user->location_details;
+        $user->birthday = $data['birthday'] ?? $user->birthday;
+        if (isset($data['user_picture']) && $data['user_picture']->isValid()) {
+            // Delete the previous user picture if it exists
+            if ($user->user_picture && Storage::exists($user->user_picture)) {
+                Storage::delete($user->user_picture);
+            }
+    
+            $extension = $data['user_picture']->getClientOriginalExtension();
+            $pictureName = uniqid('userPic') . '.' . $extension;
+            $picturePath = $data['user_picture']->storeAs('public/pictures', $pictureName);
+            $user->user_picture = $picturePath;
+        }
         $user->save();
         return $user;
     }

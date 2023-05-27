@@ -28,8 +28,10 @@ class UpdateUserRequest extends FormRequest
                 Rule::in(EUserGender::USER_ARR)
             ],
             'phone_number' => ['numeric','min:10'],
+            'birthday' => ['date'],
             'location' => ['string','min:3','max:255'],
             'location_details' => ['string','min:3','max:255'],
+            'user_picture' => ['nullable', 'image','max:2048'],
         ];
     }
 
