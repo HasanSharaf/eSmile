@@ -101,15 +101,22 @@ class UserRepository extends EloquentBaseRepository
 
     /**
     * Delete User
-    * @return User
+    * @param int $userId
+    * @return bool
     */
-    public  function deleteUser($userId)
+    public function deleteUser($userId)
     {
-        $user = User::find($userId);
-        if (!$user)
-            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+        $user = User::findOrFail($userId);
+        
+        // Delete the user's picture if it exists
+        if ($user->user_picture && Storage::exists($user->user_picture)) {
+            Storage::delete($user->user_picture);
+        }
+        
+        // Delete the user
         $user->delete();
-        return $user;
+        
+        return true;
     }
 
     /**
