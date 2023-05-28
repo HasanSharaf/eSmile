@@ -90,8 +90,8 @@ class UserRepository extends EloquentBaseRepository
 
             $extension = $data['user_picture']->getClientOriginalExtension();
             $pictureName = uniqid('userPic') . '.' . $extension;
-            $picturePath = $data['user_picture']->storeAs('public/pictures', $pictureName);
-            $user->user_picture = $picturePath;
+            $data['user_picture']->storeAs('public/pictures', $pictureName);
+            $user->user_picture = $pictureName;
         }
 
         $user->save();
