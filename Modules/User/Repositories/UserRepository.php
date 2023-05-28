@@ -15,9 +15,9 @@ use Laravel\Sanctum\PersonalAccessToken;
 class UserRepository extends EloquentBaseRepository
 {
     /**
-     * Create User (Register)
-     * @return User
-     */
+    * Create User (Register)
+    * @return User
+    */
     public function register($data)
     {
         $user = User::create([
@@ -37,12 +37,13 @@ class UserRepository extends EloquentBaseRepository
             $extension = $userPicture->getClientOriginalExtension();
             $pictureName = uniqid('userPic') . '.' . $extension;
             $userPicture->storeAs('public/pictures', $pictureName);
-            $user->user_picture = $pictureName;
+            $user->user_picture = 'pictures/' . $pictureName;
             $user->save();
         }
 
         return $user;
     }
+
   
 
     /**
@@ -84,19 +85,20 @@ class UserRepository extends EloquentBaseRepository
 
         if (isset($data['user_picture']) && $data['user_picture']->isValid()) {
             // Delete the previous user picture if it exists
-            if ($user->user_picture && Storage::exists($user->user_picture)) {
-                Storage::delete($user->user_picture);
+            if ($user->user_picture && Storage::exists('public/' . $user->user_picture)) {
+                Storage::delete('public/' . $user->user_picture);
             }
 
             $extension = $data['user_picture']->getClientOriginalExtension();
             $pictureName = uniqid('userPic') . '.' . $extension;
             $data['user_picture']->storeAs('public/pictures', $pictureName);
-            $user->user_picture = $pictureName;
+            $user->user_picture = 'pictures/' . $pictureName;
         }
 
         $user->save();
         return $user;
     }
+
 
 
     /**
