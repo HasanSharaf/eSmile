@@ -12,14 +12,16 @@ class Session extends Model
     protected $table = 'sessions';
     protected $fillable = [
         'id',
-        'appointment_id',
+        'user_id',
         'full_cost',
         'paid',
         'remaining_cost',
+        'description',
+        'payment_type',
     ];
 
 
-    public function appointment()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

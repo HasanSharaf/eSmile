@@ -13,19 +13,15 @@ class AppointmentRepository extends EloquentBaseRepository
     * Create Appointment
     * @return Appointment
     */
-    public  function createAppointment($data)
+    public  function createAppointment($user_id,$data)
     {
-        // Retrieve user details
-        $user = User::where('id', $data['user_id'])->firstOrFail();
-        
-        // Create appointment
-        $appointment = Appointment::create([
-            'user_id' => $user->id,
-            'selected_time' => $data['selected_time'],
-            'note' => $data['note'],
-        ]);
-
-        return $appointment;
+        try {
+            $user = User::findOrFail($user_id);
+        } catch (\Throwable $th) {
+            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+        }
+        $data = $user->appointment()->create($data);
+        return $data;
     }
 
     public function getAppointmentsByUserId($user_id)

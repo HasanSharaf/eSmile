@@ -33,10 +33,11 @@ class CreateAppointment
      * Create Appointment.
      * @return Appointment
      */
-    public function execute($data,$user_id)
+    public function execute($user_id,$data)
     {
         try {
-            $appointment = $this->appointmentRepository->createAppointment($data);
+            $appointment = $this->appointmentRepository->createAppointment($user_id,$data);
+            // dd($appointment);
             return new UseCaseResult(ResponseStatus::successCode, new AppointmentResource([$appointment]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();

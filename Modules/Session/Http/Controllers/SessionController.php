@@ -4,76 +4,79 @@ namespace Modules\Session\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
+use Modules\Session\Http\Requests\SessionRequest;
+use Modules\Session\Http\Requests\UpdateSessionRequest;
+use Modules\Session\Repositories\SessionRepository;
+use Modules\Session\UseCases\CreateSession;
+use Modules\Session\UseCases\DeleteSession;
+use Modules\Session\UseCases\GetSessionsByUserId;
+use Modules\Session\UseCases\ListSessions;
+use Modules\Session\UseCases\UpdateSession;
 
 class SessionController extends Controller
 {
+    private $sessionRepository;
+    
     /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
+     * Class constructor
+     *
+     **/
+    public function __construct(SessionRepository $sessionRepository)
     {
-        return view('session::index');
+        $this->sessionRepository = $sessionRepository;
+        
+    
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
+    * Create Session.
+    * @return Response
+    */
+    public function createSession($user_id, SessionRequest $request,CreateSession $createSession)
     {
-        return view('session::create');
+        $result = $createSession->execute($user_id, $request->all());
+        return $this->handleResponse($result);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
+    * Update Session.
+    * @return Response
+    */
+    public function updateSession($session_id, UpdateSessionRequest $request,UpdateSession $updateSession)
     {
-        //
+        $result = $updateSession->execute($session_id, $request->all());
+        return $this->handleResponse($result);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
+    * Delete Session.
+    * @return Response
+    */
+    public function deleteSession($session_id, DeleteSession $deleteSession)
     {
-        return view('session::show');
+        $result = $deleteSession->execute($session_id);
+        return $this->handleResponse($result);
+        
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
+    * Get User Sessions.
+    * @return Response
+    */
+    public function getUserSessions($user_id, GetSessionsByUserId $getSessionsByUserId)
     {
-        return view('session::edit');
+        $result = $getSessionsByUserId->execute($user_id);
+        return $this->handleResponse($result);
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
+    * List Session.
+    * @return Response
+    */
+    public function listSessions(Request $request, ListSessions $listSessions)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        $sessions = $listSessions->execute($request->all());
+        return $this->handleResponse($sessions);
     }
 }

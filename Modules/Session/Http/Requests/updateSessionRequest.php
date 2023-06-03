@@ -1,10 +1,12 @@
 <?php
 
-namespace Modules\Appointment\Http\Requests;
+namespace Modules\Session\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Modules\Session\Models\EPaymentType;
 
-class CreateAppointmentRequest extends FormRequest
+class UpdateSessionRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,9 +16,10 @@ class CreateAppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'user_id' => 'required|exists:users,id',
-            'selected_time' => 'required|date_format:Y-m-d H:i',
-            'note' => 'nullable|string',
+            'full_cost' => 'integer',
+            'paid' => 'integer',
+            'description' => 'nullable|string',
+            'payment_type' => [Rule::in(EPaymentType::PAYMENT_ARR)],
             
         ];
     }

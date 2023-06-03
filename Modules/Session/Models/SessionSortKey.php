@@ -6,11 +6,12 @@ namespace Modules\Session\Models;
 class SessionSortKey
 {
     public const ID = 'id';
-    public const APPOINTMENT_ID = 'appointment_id';
+    public const USER_ID = 'user_id';
     public const FULL_COST = 'full_cost';
     public const PAID = 'paid';
     public const REMAINING_COST = 'remaining_cost';
-
+    public const DESCRIPTION = 'description';
+    public const PAYMENT_TYPE = 'payment_type';
 
     public const DEFAULT_KEY = 'id';
     public const DEFAULT_SORT = 'desc';
@@ -19,13 +20,13 @@ class SessionSortKey
         self::ID =>[
             'column' => 'id',
         ],
-        self::APPOINTMENT_ID => [
+        self::USER_ID => [
             'join' => [
-                'relation' => 'appointment',
+                'relation' => 'user',
                 'column' => 'id',
-                'table' => 'appointments',
+                'table' => 'users',
                 'baseColumn' => 'id',
-                'joinColumn' =>  'appointment_id',
+                'joinColumn' =>  'user_id',
                 'baseTable' => 'sessions'
             ]
         ],
@@ -37,6 +38,12 @@ class SessionSortKey
         ],
         self::REMAINING_COST =>[
             'column' => 'remaining_cost',
+        ],
+        self::DESCRIPTION =>[
+            'column' => 'description',
+        ],
+        self::PAYMENT_TYPE =>[
+            'column' => 'payment_type',
         ],
     ];
 

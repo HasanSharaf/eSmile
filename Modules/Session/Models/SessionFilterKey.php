@@ -8,10 +8,12 @@ use App\Models\EFiltertype;
 class SessionFilterKey
 {
     public const ID = 'id';
-    public const APPOINTMENT_ID = 'appointment_id';
+    public const USER_ID = 'user_id';
     public const FULL_COST = 'full_cost';
     public const PAID = 'paid';
     public const REMAINING_COST = 'remaining_cost';
+    public const DESCRIPTION = 'description';
+    public const PAYMENT_TYPE = 'payment_type';
 
     public const KEYS_ARR = [
         self::ID =>[
@@ -19,10 +21,10 @@ class SessionFilterKey
             'column' => 'id',
             'join' => null
         ],
-        self::APPOINTMENT_ID => [
+        self::USER_ID => [
             'type' => EFiltertype::WHERE,
             'join' => [
-                'relation' => 'appointment',
+                'relation' => 'user',
                 'column' => 'id'
             ]
         ],
@@ -41,13 +43,25 @@ class SessionFilterKey
             'column' => 'remaining_cost',
             'join' => null
         ],
+        self::DESCRIPTION => [
+            'type' => EFiltertype::WHERE_LIKE,
+            'column' => 'description',
+            'join' => null
+        ],
+        self::PAYMENT_TYPE => [
+            'type' => EFiltertype::WHERE_LIKE,
+            'column' => 'payment_type',
+            'join' => null
+        ],
     ];
 
     public const SORTABLE_KEYS =[
         'id',
-        'appointment_id',
+        'user_id',
         'full_cost',
         'paid',
         'remaining_cost',
+        'description',
+        'payment_type',
     ];
 }

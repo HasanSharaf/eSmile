@@ -9,39 +9,78 @@ use Modules\User\Entities\User;
 
 class SessionRepository extends EloquentBaseRepository
 {
+
+    /**
+     * Get Fixed Item.
+     *
+     */
+    public function getUserById($id)
+    {
+        $user = User::find($id);
+        if (!$user)
+            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+
+        return $user;
+    }
+
     /**
     * Create Session
     * @return Session
     */
-    public  function createSession($data)
+    public  function createSession($user_id,$data)
     {
-        // Retrieve user details
-        // $user = User::where('id', $data['user_id'])->firstOrFail();
-        
-        // Create Session
-        // $appointment = Session::create([
-        //     'user_id' => $user->id,
-        //     'selected_time' => $data['selected_time'],
-        //     'note' => $data['note'],
-        // ]);
+        try {
+            $user = User::findOrFail($user_id);
+        } catch (\Throwable $th) {
+            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+        }
+    
+        $full_cost = $data['full_cost'];
+        $paid = $data['paid'];
+    
+        $remaining_cost = $full_cost - $paid;
+        $data['remaining_cost'] = $remaining_cost;
+    
+        $createdSession = $user->session()->create($data);
+    
+        return $createdSession;
+    }
 
-        // return $appointment;
+    /**
+    * Update Session
+    * @return Session
+    */
+    public  function updateSession($session_id,$data)
+    {
+        try {
+            $session = Session::findOrFail($session_id);
+        } catch (\Throwable $th) {
+            throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
+        }
+        $session->full_cost = $data['full_cost'] ?? $session->full_cost;
+        $session->paid = $data['paid'] ?? $session->paid;
+        $session->remaining_cost = $session->full_cost - $session->paid;
+        $session->payment_type = $data['payment_type'] ?? $session->payment_type;
+        $session->description = $data['description'] ?? $session->description;
+
+        $session->save();
+        return $session;
     }
 
     public function getSessionByUserId($user_id)
     {
-        // return Session::where('user_id', $user_id)->get();
+        return Session::where('user_id', $user_id)->get();
     }
 
     /**
     * Delete Session
     * @return Session
     */
-    public  function deleteSession($id)
+    public  function deleteSession($session_id)
     {
-        $session = Session::find($id);
+        $session = Session::findOrFail($session_id);
         if (!$session)
-            // throw new \Exception(Translator::translate("APPOINTMENTS.APPOINTMENT_NOT_FOUND"), 404);
+            throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
         $session->delete();
         return $session;
     }
@@ -52,7 +91,7 @@ class SessionRepository extends EloquentBaseRepository
     */
     public function getAllSessions($data, $query)
     {
-        // return $query->paginate($data['per_page']);
+        return $query->paginate($data['per_page']);
     }
 
 
@@ -62,7 +101,7 @@ class SessionRepository extends EloquentBaseRepository
      */
     public function getSessionQuery()
     {
-        // return Session::with(['user']);
+        return Session::with(['user']);
     }
 
 

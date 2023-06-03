@@ -32,9 +32,9 @@ class AppointmentController extends Controller
     * Create Appointment.
     * @return Response
     */
-    public function createAppointment(CreateAppointmentRequest $request, $user_id, CreateAppointment $createAppointment)
+    public function createAppointment($user_id ,CreateAppointmentRequest $request ,CreateAppointment $createAppointment)
     {
-        $result = $createAppointment->execute($request, $user_id);
+        $result = $createAppointment->execute($user_id,$request->all());
         return $this->handleResponse($result);
     }
 

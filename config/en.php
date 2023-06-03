@@ -18,4 +18,7 @@ return [
     "APPOINTMENTS" => [
         "APPOINTMENT_NOT_FOUND" => 'Appointment not found',
     ],
+    "SESSIONS" => [
+        "SESSION_NOT_FOUND" => 'Session not found',
+    ],
 ];
