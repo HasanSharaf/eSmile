@@ -27,6 +27,8 @@ class AppointmentResource extends BaseResource
                     'phone_number' => $item->user->phone_number,
                     'location' => $item->user->location ,
                     'location_details' => $item->user->location_details ,
+                    'birthday' => $item->user->birthday,
+                    'user_picture' => $item->user->user_picture,
                     'selected_time' => $item->selected_time ? Carbon::parse($item->selected_time)->format('m/d/Y H:i') : null ,
                     'note' => $item->note,
                     'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null ,
