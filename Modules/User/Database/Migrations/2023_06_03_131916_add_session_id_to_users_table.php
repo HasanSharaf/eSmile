@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        // Schema::table('users', function (Blueprint $table) {
-        //     $table->foreignId('session_id')->references('id')->on('sessions')->onDelete('cascade'); 
-        // });
+            Schema::table('users', function (Blueprint $table) {
+                $table->unsignedBigInteger('session_id')->nullable();
+                $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
+            });
     }
 
     /**
@@ -25,8 +26,10 @@ return new class extends Migration
      */
     public function down()
     {
-        // Schema::table('users', function (Blueprint $table) {
-        //     $table->dropColumn('session_id');
-        // });
+        
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropForeign(['session_id']);
+                $table->dropColumn('session_id');
+            });
     }
 };

@@ -20,5 +20,9 @@ return [
     ],
     "SESSIONS" => [
         "SESSION_NOT_FOUND" => 'Session not found',
+        "SESSION_CREATION_FAILED" => 'Session creation failed'
+    ],
+    "FINANCIAL_ACCOUNTS" => [
+        "FINANCIAL_ACCOUNT_NOT_FOUND" => 'Financial account not found',
     ],
 ];

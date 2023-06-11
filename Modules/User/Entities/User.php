@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Appointment\Entities\Appointment;
+use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
 
 class User extends Authenticatable
@@ -18,7 +19,7 @@ class User extends Authenticatable
 
  protected $table = 'users';
     protected $fillable = [
-        'session_id',
+        'financial_account_id',
         'first_name',
         'last_name',
         'email',
@@ -57,9 +58,9 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
-    public function session()
+    public function financialAccount()
     {
-        return $this->hasMany(Session::class);
+        return $this->belongsTo(FinancialAccount::class, 'financial_account_id');
     }
 
 

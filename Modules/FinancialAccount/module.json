@@ -1,0 +1,11 @@
+{
+    "name": "FinancialAccount",
+    "alias": "financialaccount",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FinancialAccount\\Providers\\FinancialAccountServiceProvider"
+    ],
+    "files": []
+}

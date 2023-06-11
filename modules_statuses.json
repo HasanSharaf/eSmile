@@ -1,5 +1,7 @@
 {
     "User": true,
     "Appointment": true,
-    "Session": true
+    "Session": true,
+    "Accounting": true,
+    "FinancialAccount": true
 }

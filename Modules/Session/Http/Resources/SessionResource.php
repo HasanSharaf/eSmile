@@ -19,7 +19,7 @@ class SessionResource extends BaseResource
             $this->collection = $this->collection->map(function ($item) {
                 return [
                     'id' => $item->id,
-                    'user_id' => $item->user->id,
+                    'financial_account_id' => $item->financialAccount->id,
                     'full_cost' => $item->full_cost,
                     'paid' =>$item->paid,
                     'payment_type' => $item->payment_type ,

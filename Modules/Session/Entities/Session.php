@@ -5,6 +5,7 @@ namespace Modules\Session\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
+use Modules\FinancialAccount\Entities\FinancialAccount;
 
 class Session extends Model
 {
@@ -12,18 +13,17 @@ class Session extends Model
     protected $table = 'sessions';
     protected $fillable = [
         'id',
-        'user_id',
         'full_cost',
         'paid',
         'remaining_cost',
         'description',
         'payment_type',
+        'financial_account_id',
     ];
 
-
-    public function user()
+    public function financialAccount()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(FinancialAccount::class, 'financial_account_id');
     }
     
 }

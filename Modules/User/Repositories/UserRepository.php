@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Modules\User\Entities\User;
 use Laravel\Sanctum\PersonalAccessToken;
-
+use Modules\FinancialAccount\Entities\FinancialAccount;
+use Modules\Session\Entities\Session;
+use Modules\Session\Models\EPaymentType;
 
 class UserRepository extends EloquentBaseRepository
 {
@@ -30,8 +32,9 @@ class UserRepository extends EloquentBaseRepository
             'birthday' => $data['birthday'],
             'location' => $data['location'],
             'location_details' => $data['location_details'],
+            'financial_account_id' => null, // Default value for financial_account_id
         ]);
-
+    
         if ($data->hasFile('user_picture') && $data->file('user_picture')->isValid()) {
             $userPicture = $data->file('user_picture');
             $extension = $userPicture->getClientOriginalExtension();
@@ -40,7 +43,33 @@ class UserRepository extends EloquentBaseRepository
             $user->user_picture = 'pictures/' . $pictureName;
             $user->save();
         }
-
+    
+        // Create a new session with specific property values
+        $sessionData = [
+            'full_cost' => 0,
+            'paid' => 0,
+            'remaining_cost' => 0,
+            'payment_method' => EPaymentType::CASH,
+            'description' => null,
+            'financial_account_id' => null, // Placeholder value for financial_account_id
+        ];
+        $createdSession = Session::create($sessionData);
+    
+        // Create a new financial account for the user
+        $financialAccountData = [
+            'user_id' => $user->id,
+            'session_id' => $createdSession->id,
+        ];
+        $financialAccount = FinancialAccount::create($financialAccountData);
+    
+        // Update the financial_account_id in the session
+        $createdSession->financial_account_id = $financialAccount->id;
+        $createdSession->save();
+    
+        // Update the financial_account_id and user_id in the users table
+        $user->financial_account_id = $financialAccount->id;
+        $user->save();
+    
         return $user;
     }
 
