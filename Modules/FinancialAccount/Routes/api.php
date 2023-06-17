@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('financialAccounts')->group(function() {
-    Route::post('createSession/{Userid}', 'FinancialAccountController@createSession');
+    Route::post('createFinancialAccount/{Userid}', 'FinancialAccountController@createFinancialAccount');
     Route::get('getUserSessions/{Userid}', 'FinancialAccountController@getUserSessions');
     Route::delete('deleteFinancialAccount/{id}', 'FinancialAccountController@deleteFinancialAccount');
     Route::get('getAllFinancialAccounts', 'FinancialAccountController@listFinancialAccounts');

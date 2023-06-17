@@ -24,6 +24,7 @@ Route::prefix('users')->group(function() {
     Route::delete('/deleteUser/{id}', 'UserController@deleteUser');
     Route::get('/getAllUsers', 'UserController@getAllUsers');
     Route::get('/getUserById/{id}', 'UserController@getUserById');
+    Route::get('getEnableFinancialUser', 'UserController@getEnableFinancialUser');
 
 
 });

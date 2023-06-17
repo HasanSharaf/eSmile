@@ -4,6 +4,7 @@ namespace Modules\Session\Repositories;
 
 use App\Helpers\Classes\Translator;
 use App\Repositories\EloquentBaseRepository;
+use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
 use Modules\User\Entities\User;
 
@@ -27,10 +28,10 @@ class SessionRepository extends EloquentBaseRepository
     * Create Session
     * @return Session
     */
-    public  function createSession($user_id,$data)
+    public function createSession($user_id, $data)
     {
         try {
-            $user = User::findOrFail($user_id);
+            $financialAccount = FinancialAccount::where('user_id', $user_id)->firstOrFail();
         } catch (\Throwable $th) {
             throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
         }
@@ -41,10 +42,18 @@ class SessionRepository extends EloquentBaseRepository
         $remaining_cost = $full_cost - $paid;
         $data['remaining_cost'] = $remaining_cost;
     
-        $createdSession = $user->session()->create($data);
+        // Create the session with the financial_account_id and user_id
+        $createdSession = $financialAccount->session()->create($data + [
+            'financial_account_id' => $financialAccount->id,
+        ]);
+    
+        // Update the financial account with the session_id
+        $financialAccount->session_id = $createdSession->id;
+        $financialAccount->save();
     
         return $createdSession;
     }
+    
 
     /**
     * Update Session

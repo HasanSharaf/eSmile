@@ -18,6 +18,10 @@ class FinancialAccountFilterKey
     public const START_SELECTED_TIME = 'start_selected_time';
     public const END_SELECTED_TIME = 'end_selected_time';
     public const NOTE = 'note';
+    public const FULL_COST = 'full_cost';
+    public const PAID = 'paid';
+    public const REMAINING_COST = 'remaining_cost';
+    public const DESCRIPTION = 'description';
 
     public const KEYS_ARR = [
         self::ID =>[
@@ -89,6 +93,27 @@ class FinancialAccountFilterKey
             'column' => 'note',
             'join' => null
         ],
+        self::FULL_COST =>[
+            'type' => EFiltertype::WHERE,
+            'column' => 'full_cost',
+            'join' => null
+        ],
+        self::PAID =>[
+            'type' => EFiltertype::WHERE,
+            'column' => 'paid',
+            'join' => null
+        ],
+        self::REMAINING_COST =>[
+            'type' => EFiltertype::WHERE,
+            'column' => 'remaining_cost',
+            'join' => null
+        ],
+        self::DESCRIPTION =>[
+            'type' => EFiltertype::WHERE_LIKE,
+            'column' => 'description',
+            'join' => null
+        ],
+        
         // self::QUOTATION_CODE => [
         //     'type' => EFiltertype::WHERE,
         //     'join' => [
@@ -109,5 +134,9 @@ class FinancialAccountFilterKey
         'gender',
         'selected_time',
         'note',
+        'full_cost',
+        'paid',
+        'remaining_cost',
+        'description',
     ];
 }

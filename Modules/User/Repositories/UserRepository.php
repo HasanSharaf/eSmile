@@ -6,6 +6,7 @@ use App\Helpers\Classes\Translator;
 use App\Repositories\BaseRepository;
 use App\Repositories\EloquentBaseRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Modules\User\Entities\User;
@@ -43,36 +44,10 @@ class UserRepository extends EloquentBaseRepository
             $user->user_picture = 'pictures/' . $pictureName;
             $user->save();
         }
-    
-        // Create a new session with specific property values
-        $sessionData = [
-            'full_cost' => 0,
-            'paid' => 0,
-            'remaining_cost' => 0,
-            'payment_method' => EPaymentType::CASH,
-            'description' => null,
-            'financial_account_id' => null, // Placeholder value for financial_account_id
-        ];
-        $createdSession = Session::create($sessionData);
-    
-        // Create a new financial account for the user
-        $financialAccountData = [
-            'user_id' => $user->id,
-            'session_id' => $createdSession->id,
-        ];
-        $financialAccount = FinancialAccount::create($financialAccountData);
-    
-        // Update the financial_account_id in the session
-        $createdSession->financial_account_id = $financialAccount->id;
-        $createdSession->save();
-    
-        // Update the financial_account_id and user_id in the users table
-        $user->financial_account_id = $financialAccount->id;
-        $user->save();
-    
+        
         return $user;
     }
-
+    
   
 
     /**
@@ -196,6 +171,16 @@ class UserRepository extends EloquentBaseRepository
     {
         $user = User::findOrFail($userId);
         return $user;
+    }
+
+    /**
+    * Get Enable Financial Account User
+    * @return User
+    */
+    public function getEnableFinancialUser($data, $query)
+    {
+        $excludedUserIds = DB::table('financial_accounts')->pluck('user_id');
+        return $query->whereNotIn('id', $excludedUserIds)->paginate($data['per_page']);    
     }
     
 }

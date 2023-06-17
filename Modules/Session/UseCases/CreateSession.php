@@ -37,7 +37,7 @@ class CreateSession
     {
         try {
             $session = $this->sessionRepository->createSession($user_id,$data);
-            return new UseCaseResult(ResponseStatus::successCode, new SessionResource([$session]), 1, '');
+            return new UseCaseResult(ResponseStatus::successCreate, new SessionResource([$session]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

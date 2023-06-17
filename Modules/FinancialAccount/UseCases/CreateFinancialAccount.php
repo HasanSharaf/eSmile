@@ -11,11 +11,11 @@ use App\Models\ResponseStatus;
 use Illuminate\Support\Facades\Request;
 
 /**
- * Class CreateSession
+ * Class CreateFinancialAccount
  *
  * @package Modules\FinancialAccount\UseCases
  */
-class CreateSession
+class CreateFinancialAccount
 {
 
    private $financialAccountRepository ;
@@ -36,8 +36,8 @@ class CreateSession
     public function execute($user_id,$data)
     {
         try {
-            $session = $this->financialAccountRepository->createSession($user_id,$data);
-            return new UseCaseResult(ResponseStatus::successCode, new FinancialAccountResource([$session]), 1, '');
+            $session = $this->financialAccountRepository->createFinancialAccount($user_id,$data);
+            return new UseCaseResult(ResponseStatus::successCreate, new FinancialAccountResource([$session]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

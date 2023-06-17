@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Modules\FinancialAccount\Http\Requests\FinancialAccountRequest;
 use Modules\FinancialAccount\Http\Requests\UpdateFinancialAccountRequest;
 use Modules\FinancialAccount\Repositories\FinancialAccountRepository;
+use Modules\FinancialAccount\UseCases\CreateFinancialAccount;
 use Modules\FinancialAccount\UseCases\CreateSession;
 use Modules\FinancialAccount\UseCases\DeleteFinancialAccount;
 use Modules\FinancialAccount\UseCases\GetFinancialAccountsByUserId;
@@ -34,9 +35,9 @@ class FinancialAccountController extends Controller
     * Create Session.
     * @return Response
     */
-    public function createSession($user_id, SessionRequest $request,CreateSession $createSession)
+    public function createFinancialAccount($user_id, SessionRequest $request,CreateFinancialAccount $createFinancialAccount)
     {
-        $result = $createSession->execute($user_id, $request->all());
+        $result = $createFinancialAccount->execute($user_id, $request->all());
         return $this->handleResponse($result);
     }
 
@@ -62,12 +63,12 @@ class FinancialAccountController extends Controller
     }
 
     /**
-    * List Session.
+    * List Financial Accounts.
     * @return Response
     */
-    // public function listSessions(Request $request, ListSessions $listSessions)
-    // {
-    //     $sessions = $listSessions->execute($request->all());
-    //     return $this->handleResponse($sessions);
-    // }
+    public function listFinancialAccounts(Request $request, ListFinancialAccounts $listFinancialAccounts)
+    {
+        $sessions = $listFinancialAccounts->execute($request->all());
+        return $this->handleResponse($sessions);
+    }
 }

@@ -15,6 +15,10 @@ class FinancialAccountSortKey
     public const GENDER = 'gender';
     public const SELECTED_TIME = 'selected_time';
     public const NOTE = 'note';
+    public const FULL_COST = 'full_cost';
+    public const PAID = 'paid';
+    public const REMAINING_COST = 'remaining_cost';
+    public const DESCRIPTION = 'description';
 
 
     public const DEFAULT_KEY = 'id';
@@ -31,7 +35,7 @@ class FinancialAccountSortKey
                 'table' => 'users',
                 'baseColumn' => 'id',
                 'joinColumn' =>  'user_id',
-                'baseTable' => 'appointments'
+                'baseTable' => 'financial_accounts'
             ]
         ],
         self::LAST_NAME => [
@@ -41,7 +45,7 @@ class FinancialAccountSortKey
                 'table' => 'users',
                 'baseColumn' => 'id',
                 'joinColumn' =>  'user_id',
-                'baseTable' => 'appointments'
+                'baseTable' => 'financial_accounts'
             ]
         ],
         self::EMAIL => [
@@ -51,7 +55,7 @@ class FinancialAccountSortKey
                 'table' => 'users',
                 'baseColumn' => 'id',
                 'joinColumn' =>  'user_id',
-                'baseTable' => 'appointments'
+                'baseTable' => 'financial_accounts'
             ]
         ],
         self::PHONE_NUMBER => [
@@ -61,7 +65,7 @@ class FinancialAccountSortKey
                 'table' => 'users',
                 'baseColumn' => 'id',
                 'joinColumn' =>  'user_id',
-                'baseTable' => 'appointments'
+                'baseTable' => 'financial_accounts'
             ]
         ],
         self::LOCATION => [
@@ -71,7 +75,7 @@ class FinancialAccountSortKey
                 'table' => 'users',
                 'baseColumn' => 'id',
                 'joinColumn' =>  'user_id',
-                'baseTable' => 'appointments'
+                'baseTable' => 'financial_accounts'
             ]
         ],
         self::LOCATION_DETAILS => [
@@ -81,7 +85,7 @@ class FinancialAccountSortKey
                 'table' => 'users',
                 'baseColumn' => 'id',
                 'joinColumn' =>  'user_id',
-                'baseTable' => 'appointments'
+                'baseTable' => 'financial_accounts'
             ]
         ],
         self::GENDER => [
@@ -91,14 +95,68 @@ class FinancialAccountSortKey
                 'table' => 'users',
                 'baseColumn' => 'id',
                 'joinColumn' =>  'user_id',
-                'baseTable' => 'appointments'
+                'baseTable' => 'financial_accounts'
             ]
         ],
         self::SELECTED_TIME =>[
-            'column' => 'selected_time',
+            'join' => [
+                'relation' => 'user',
+                'column' => 'selected_time',
+                'table' => 'users',
+                'baseColumn' => 'id',
+                'joinColumn' =>  'user_id',
+                'baseTable' => 'financial_accounts'
+            ]
         ],
         self::NOTE =>[
-            'column' => 'note',
+            'join' => [
+                'relation' => 'user',
+                'column' => 'note',
+                'table' => 'users',
+                'baseColumn' => 'id',
+                'joinColumn' =>  'user_id',
+                'baseTable' => 'financial_accounts'
+            ]
+        ],
+        self::FULL_COST =>[
+            'join' => [
+                'relation' => 'user',
+                'column' => 'full_cost',
+                'table' => 'sessions',
+                'baseColumn' => 'id',
+                'joinColumn' =>  'session_id',
+                'baseTable' => 'financial_accounts'
+            ]
+        ],
+        self::PAID =>[
+            'join' => [
+                'relation' => 'user',
+                'column' => 'paid',
+                'table' => 'sessions',
+                'baseColumn' => 'id',
+                'joinColumn' =>  'session_id',
+                'baseTable' => 'financial_accounts'
+            ]
+        ],
+        self::REMAINING_COST =>[
+            'join' => [
+                'relation' => 'user',
+                'column' => 'remaining_cost',
+                'table' => 'sessions',
+                'baseColumn' => 'id',
+                'joinColumn' =>  'session_id',
+                'baseTable' => 'financial_accounts'
+            ]
+        ],
+        self::DESCRIPTION =>[
+            'join' => [
+                'relation' => 'user',
+                'column' => 'description',
+                'table' => 'sessions',
+                'baseColumn' => 'id',
+                'joinColumn' =>  'session_id',
+                'baseTable' => 'financial_accounts'
+            ]
         ],
     ];
 

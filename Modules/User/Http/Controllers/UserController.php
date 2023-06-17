@@ -11,6 +11,7 @@ use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\UseCases\DeleteUser;
 use Modules\User\UseCases\GetAllUsers;
+use Modules\User\UseCases\GetEnableFinancialUser;
 use Modules\User\UseCases\GetUserById;
 use Modules\User\UseCases\Login;
 use Modules\User\UseCases\Logout;
@@ -103,6 +104,17 @@ class UserController extends Controller
     public function getUserById(Request $request, $userId,GetUserById $getUserById)
     {
         $result = $getUserById->execute($request,$userId);
+        return $this->handleResponse($result);
+        
+    }
+
+    /**
+    * Get Enable Financial User.
+    * @return Response
+    */
+    public function getEnableFinancialUser(Request $request, GetEnableFinancialUser $getEnableFinancialUser)
+    {
+        $result = $getEnableFinancialUser->execute($request->all());
         return $this->handleResponse($result);
         
     }
