@@ -14,7 +14,6 @@ class FinancialAccount extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'session_id',
     ];
 
 
@@ -25,7 +24,7 @@ class FinancialAccount extends Model
 
     public function session()
     {
-        return $this->hasMany(Session::class, 'financial_account_id');
+        return $this->hasMany(Session::class);
     }
     
 }

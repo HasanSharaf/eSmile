@@ -26,33 +26,30 @@ class FinancialAccountRepository extends EloquentBaseRepository
     // }
 
     /**
-    * Create Financial Account.
-    * @param int $user_id
-    * @param array $data
-    * @return FinancialAccount
-    */
+     * Create Financial Account.
+     *
+     * @param int   $user_id
+     * @param array $data
+     * @return FinancialAccount
+     */
     public function createFinancialAccount($user_id, $data)
     {
+        // Create a new row in the financial_accounts table
+        $financialAccountData = [
+            'user_id' => $user_id,
+        ];
+        $financialAccount = FinancialAccount::create($financialAccountData);
+
         // Create a new session with specific property values
         $sessionData = [
             'full_cost' => $data['full_cost'],
             'paid' => $data['paid'],
             'remaining_cost' => $data['full_cost'] - $data['paid'],
+            'payment_type' => $data['payment_type'],
             'description' => $data['description'],
-            'financial_account_id' => null, // Initialize with null value
+            'financial_account_id' => $financialAccount->id,
         ];
         $createdSession = Session::create($sessionData);
-
-        // Create a new row in the financial_accounts table
-        $financialAccountData = [
-            'user_id' => $user_id,
-            'session_id' => $createdSession->id,
-        ];
-        $financialAccount = FinancialAccount::create($financialAccountData);
-
-        // Update the financial_account_id in the session row
-        $createdSession->financial_account_id = $financialAccount->id;
-        $createdSession->save();
 
         return $financialAccount;
     }

@@ -25,32 +25,32 @@ class SessionRepository extends EloquentBaseRepository
     }
 
     /**
-    * Create Session
+    * Create Session.
+    *
+    * @param int   $user_id
+    * @param array $data
     * @return Session
+    * @throws \Exception
     */
     public function createSession($user_id, $data)
     {
-        try {
-            $financialAccount = FinancialAccount::where('user_id', $user_id)->firstOrFail();
-        } catch (\Throwable $th) {
-            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+        $financialAccount = FinancialAccount::where('user_id', $user_id)->first();
+
+        if (!$financialAccount) {
+            throw new \Exception("This user doesn't have a financial account. Can't create a new session!");
         }
-    
-        $full_cost = $data['full_cost'];
-        $paid = $data['paid'];
-    
-        $remaining_cost = $full_cost - $paid;
-        $data['remaining_cost'] = $remaining_cost;
-    
-        // Create the session with the financial_account_id and user_id
-        $createdSession = $financialAccount->session()->create($data + [
+
+        // Create a new session with the financial_account_id and user_id
+        $createdSession = Session::create([
             'financial_account_id' => $financialAccount->id,
+            'user_id' => $user_id,
+            'full_cost' => $data['full_cost'],
+            'paid' => $data['paid'],
+            'remaining_cost' => $data['full_cost'] - $data['paid'],
+            'payment_type' => $data['payment_type'],
+            'description' => $data['description'],
         ]);
-    
-        // Update the financial account with the session_id
-        $financialAccount->session_id = $createdSession->id;
-        $financialAccount->save();
-    
+
         return $createdSession;
     }
     

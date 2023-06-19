@@ -51,7 +51,7 @@ class ListFinancialAccounts
             $sortQuery = SortHelper::sort($data['order_key'], $data['order'], FinancialAccountSortKey::KEYS_ARR, $filterQuery);
 
             $result = $this->financialAccountRepository->getAllFinancialAccounts($data, $sortQuery);
-            return new UseCaseResult(ResponseStatus::successCode, new FinancialAccountResource($result, false), $result->count(), '');
+            return new UseCaseResult(ResponseStatus::successCode, new listFinancialAccountResource($result, false), $result->count(), '');
             
         } catch (\Throwable $th) {
             $message = $th->getMessage();
