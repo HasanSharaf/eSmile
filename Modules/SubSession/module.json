@@ -1,0 +1,11 @@
+{
+    "name": "SubSession",
+    "alias": "subsession",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SubSession\\Providers\\SubSessionServiceProvider"
+    ],
+    "files": []
+}

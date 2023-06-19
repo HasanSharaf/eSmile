@@ -3,5 +3,6 @@
     "Appointment": true,
     "Session": true,
     "Accounting": true,
-    "FinancialAccount": true
+    "FinancialAccount": true,
+    "SubSession": true
 }
