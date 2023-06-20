@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('subSessions')->group(function() {
-    // Route::post('createSession/{id}', 'SessionController@createSession');
+    Route::post('createSubSession/{sessionId}', 'SubSessionController@createSubSession');
     // Route::put('updateSession/{id}', 'SessionController@updateSession');
     // Route::delete('deleteSession/{id}', 'SessionController@deleteSession');
     // Route::get('getUserSessions/{id}', 'SessionController@getUserSessions');

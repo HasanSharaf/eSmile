@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Modules\FinancialAccount\Entities\FinancialAccount;
+use Modules\SubSession\Entities\SubSession;
 
 class Session extends Model
 {
@@ -24,6 +25,11 @@ class Session extends Model
     public function financialAccount()
     {
         return $this->belongsTo(FinancialAccount::class, 'financial_account_id');
+    }
+
+    public function subSession()
+    {
+        return $this->hasMany(SubSession::class, 'session_id');
     }
     
 }

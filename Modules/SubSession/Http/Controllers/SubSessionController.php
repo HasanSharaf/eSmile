@@ -4,76 +4,79 @@ namespace Modules\SubSession\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
+use Modules\SubSession\Http\Requests\SubSessionRequest;
+use Modules\SubSession\Http\Requests\UpdateSubSessionRequest;
+use Modules\SubSession\Repositories\SubSessionRepository;
+use Modules\SubSession\UseCases\CreateSubSession;
+use Modules\SubSession\UseCases\DeleteSubSession;
+use Modules\SubSession\UseCases\GetSubSessionsByUserId;
+use Modules\SubSession\UseCases\ListSubSessions;
+use Modules\SubSession\UseCases\UpdateSubSession;
 
 class SubSessionController extends Controller
 {
+    private $subSessionRepository;
+    
     /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
+     * Class constructor
+     *
+     **/
+    public function __construct(SubSessionRepository $subSessionRepository)
     {
-        return view('subsession::index');
+        $this->subSessionRepository = $subSessionRepository;
+        
+    
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
+    * Create Session.
+    * @return Response
+    */
+    public function createSubSession($session_id, SubSessionRequest $request,CreateSubSession $createSubSession)
     {
-        return view('subsession::create');
+        $result = $createSubSession->execute($session_id, $request->all());
+        return $this->handleResponse($result);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // /**
+    // * Update Session.
+    // * @return Response
+    // */
+    // public function updateSession($session_id, UpdateSessionRequest $request,UpdateSession $updateSession)
+    // {
+    //     $result = $updateSession->execute($session_id, $request->all());
+    //     return $this->handleResponse($result);
+    // }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('subsession::show');
-    }
+    // /**
+    // * Delete Session.
+    // * @return Response
+    // */
+    // public function deleteSession($session_id, DeleteSession $deleteSession)
+    // {
+    //     $result = $deleteSession->execute($session_id);
+    //     return $this->handleResponse($result);
+        
+    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('subsession::edit');
-    }
+    // /**
+    // * Get User Sessions.
+    // * @return Response
+    // */
+    // public function getUserSessions($user_id, GetSessionsByUserId $getSessionsByUserId)
+    // {
+    //     $result = $getSessionsByUserId->execute($user_id);
+    //     return $this->handleResponse($result);
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    // /**
+    // * List Session.
+    // * @return Response
+    // */
+    // public function listSessions(Request $request, ListSessions $listSessions)
+    // {
+    //     $sessions = $listSessions->execute($request->all());
+    //     return $this->handleResponse($sessions);
+    // }
 }

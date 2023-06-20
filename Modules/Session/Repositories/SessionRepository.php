@@ -6,6 +6,7 @@ use App\Helpers\Classes\Translator;
 use App\Repositories\EloquentBaseRepository;
 use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
+use Modules\SubSession\Entities\SubSession;
 use Modules\User\Entities\User;
 
 class SessionRepository extends EloquentBaseRepository
@@ -45,10 +46,24 @@ class SessionRepository extends EloquentBaseRepository
             'financial_account_id' => $financialAccount->id,
             'user_id' => $user_id,
             'full_cost' => $data['full_cost'],
-            'paid' => $data['paid'],
-            'remaining_cost' => $data['full_cost'] - $data['paid'],
             'payment_type' => $data['payment_type'],
             'description' => $data['description'],
+        ]);
+
+        // Create a new subSession with the paid value, description, and payment_type from the input data
+        $subSessionData = [
+            'session_id' => $createdSession->id,
+            'paid' => $data['paid'],
+            'description' => $data['description'],
+            'payment_type' => $data['payment_type'],
+        ];
+
+        SubSession::create($subSessionData);
+
+        // Update the paid and remaining_cost values in the session
+        $createdSession->update([
+            'paid' => $createdSession->subSession()->sum('paid'),
+            'remaining_cost' => $createdSession->full_cost - $createdSession->subSession()->sum('paid'),
         ]);
 
         return $createdSession;

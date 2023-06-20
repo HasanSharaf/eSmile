@@ -9,7 +9,7 @@ use Modules\Session\Entities\Session;
 class SubSession extends Model
 {
     use HasFactory;
-    protected $table = 'sessions';
+    protected $table = 'sub_sessions';
     protected $fillable = [
         'id',
         'session_id',
@@ -20,7 +20,7 @@ class SubSession extends Model
 
     public function session()
     {
-        return $this->belongsTo(Session::class, 'session_id');
+        return $this->belongsTo(Session::class);
     }
     
 }
