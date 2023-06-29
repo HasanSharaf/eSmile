@@ -10,6 +10,7 @@ use Modules\SubSession\Http\Requests\UpdateSubSessionRequest;
 use Modules\SubSession\Repositories\SubSessionRepository;
 use Modules\SubSession\UseCases\CreateSubSession;
 use Modules\SubSession\UseCases\DeleteSubSession;
+use Modules\SubSession\UseCases\GetSubSessionBySessionId;
 use Modules\SubSession\UseCases\GetSubSessionsByUserId;
 use Modules\SubSession\UseCases\ListSubSessions;
 use Modules\SubSession\UseCases\UpdateSubSession;
@@ -39,36 +40,36 @@ class SubSessionController extends Controller
         return $this->handleResponse($result);
     }
 
-    // /**
-    // * Update Session.
-    // * @return Response
-    // */
-    // public function updateSession($session_id, UpdateSessionRequest $request,UpdateSession $updateSession)
-    // {
-    //     $result = $updateSession->execute($session_id, $request->all());
-    //     return $this->handleResponse($result);
-    // }
+    /**
+    * Update SubSession.
+    * @return Response
+    */
+    public function updateSubSession($sub_session_id, UpdateSubSessionRequest $request,UpdateSubSession $updateSubSession)
+    {
+        $result = $updateSubSession->execute($sub_session_id, $request->all());
+        return $this->handleResponse($result);
+    }
 
-    // /**
-    // * Delete Session.
-    // * @return Response
-    // */
-    // public function deleteSession($session_id, DeleteSession $deleteSession)
-    // {
-    //     $result = $deleteSession->execute($session_id);
-    //     return $this->handleResponse($result);
+    /**
+    * Delete SubSession.
+    * @return Response
+    */
+    public function deleteSubSession($sub_session_id, DeleteSubSession $deleteSubSession)
+    {
+        $result = $deleteSubSession->execute($sub_session_id);
+        return $this->handleResponse($result);
         
-    // }
+    }
 
-    // /**
-    // * Get User Sessions.
-    // * @return Response
-    // */
-    // public function getUserSessions($user_id, GetSessionsByUserId $getSessionsByUserId)
-    // {
-    //     $result = $getSessionsByUserId->execute($user_id);
-    //     return $this->handleResponse($result);
-    // }
+    /**
+    * Get SubSession By Session Id.
+    * @return Response
+    */
+    public function getSubSessionBySessionId($session_id, GetSubSessionBySessionId $getSubSessionBySessionId)
+    {
+        $result = $getSubSessionBySessionId->execute($session_id);
+        return $this->handleResponse($result);
+    }
 
     // /**
     // * List Session.

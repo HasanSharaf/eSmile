@@ -8,6 +8,8 @@ use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
 use Modules\SubSession\Entities\SubSession;
 use Modules\User\Entities\User;
+use App\Events\SubSessionCreated;
+
 
 class SubSessionRepository extends EloquentBaseRepository
 {
@@ -35,10 +37,10 @@ class SubSessionRepository extends EloquentBaseRepository
     */
     public function createSubSession($session_id, $data)
     {
-        $session = Session::find($session_id);
-
-        if (!$session) {
-            throw new \Exception("This session was not found!");
+        try {
+            $session = Session::findOrFail($session_id);
+        } catch (\Throwable $th) {
+            throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
         }
 
         // Create a new sub session with the session_id and other data
@@ -48,49 +50,61 @@ class SubSessionRepository extends EloquentBaseRepository
             'payment_type' => $data['payment_type'],
             'description' => $data['description'],
         ]);
+        
+        // Dispatch the event
+        event(new SubSessionCreated($subSession));
 
         return $subSession;
     }
     
 
-    // /**
-    // * Update Session
-    // * @return Session
-    // */
-    // public  function updateSession($session_id,$data)
-    // {
-    //     try {
-    //         $session = Session::findOrFail($session_id);
-    //     } catch (\Throwable $th) {
-    //         throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
-    //     }
-    //     $session->full_cost = $data['full_cost'] ?? $session->full_cost;
-    //     $session->paid = $data['paid'] ?? $session->paid;
-    //     $session->remaining_cost = $session->full_cost - $session->paid;
-    //     $session->payment_type = $data['payment_type'] ?? $session->payment_type;
-    //     $session->description = $data['description'] ?? $session->description;
+    /**
+    * Update SubSession
+    * @return SubSession
+    */
+    public  function updateSubSession($sub_session_id,$data)
+    {
+        try {
+            $subSession = SubSession::findOrFail($sub_session_id);
+        } catch (\Throwable $th) {
+            throw new \Exception(Translator::translate("SUB_SESSIONS.SUB_SESSION_NOT_FOUND"), 404);
+        }
+        $subSession->paid = $data['paid'] ?? $subSession->paid;
+        $subSession->payment_type = $data['payment_type'] ?? $subSession->payment_type;
+        $subSession->description = $data['description'] ?? $subSession->description;
 
-    //     $session->save();
-    //     return $session;
-    // }
+        $subSession->save();
+        return $subSession;
+    }
 
     // public function getSessionByUserId($user_id)
     // {
     //     return Session::where('user_id', $user_id)->get();
     // }
 
-    // /**
-    // * Delete Session
-    // * @return Session
-    // */
-    // public  function deleteSession($session_id)
-    // {
-    //     $session = Session::findOrFail($session_id);
-    //     if (!$session)
-    //         throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
-    //     $session->delete();
-    //     return $session;
-    // }
+    /**
+    * Delete SubSession
+    * @return SubSession
+    */
+    public  function deleteSubSession($sub_session_id)
+    {
+        $subSession = SubSession::findOrFail($sub_session_id);
+        if (!$subSession)
+            throw new \Exception(Translator::translate("SUB_SESSIONS.SUB_SESSION_NOT_FOUND"), 404);
+        $subSession->delete();
+        return $subSession;
+    }
+
+    /**
+    * Get SubSession By Session Id
+    * @return SubSession
+    */
+    public function getSubSessionBySessionId($session_id)
+    {
+        return SubSession::whereHas('session', function ($query) use ($session_id) {
+            $query->where('session_id', $session_id);
+        })->get();
+    }
 
     // /**
     // * List Session

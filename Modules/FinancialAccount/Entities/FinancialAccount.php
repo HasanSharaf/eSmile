@@ -11,6 +11,7 @@ class FinancialAccount extends Model
 {
     use HasFactory;
     protected $table = 'financial_accounts';
+    protected $with = ['user'];
     protected $fillable = [
         'id',
         'user_id',

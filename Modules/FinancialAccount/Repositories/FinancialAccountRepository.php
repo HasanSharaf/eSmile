@@ -33,13 +33,18 @@ class FinancialAccountRepository extends EloquentBaseRepository
     * @param array $data
     * @return FinancialAccount
     */
-    public function createSession($user_id, $data)
-{
-    $financialAccount = FinancialAccount::where('user_id', $user_id)->first();
-
-    if (!$financialAccount) {
-        throw new \Exception("This user doesn't have a financial account. Can't create a new session!");
+    public function createFinancialAccount($user_id, $data)
+    {
+    // Check if the user exists
+    $user = User::find($user_id);
+    if (!$user) {
+        throw new \Exception("USERS.USER_NOT_FOUND");
     }
+
+    // Create a new financial account for the user
+    $financialAccount = FinancialAccount::create([
+        'user_id' => $user_id,
+    ]);
 
     // Create a new session with the financial_account_id and user_id
     $createdSession = Session::create([
@@ -67,7 +72,7 @@ class FinancialAccountRepository extends EloquentBaseRepository
     ]);
 
     return $createdSession;
-}
+    }
 
 
     /**

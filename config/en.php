@@ -22,7 +22,12 @@ return [
         "SESSION_NOT_FOUND" => 'Session not found',
         "SESSION_CREATION_FAILED" => 'Session creation failed'
     ],
+    "SUB_SESSIONS" => [
+        "SUB_SESSION_NOT_FOUND" => 'Sub session not found',
+        "SUB_SESSION_CREATION_FAILED" => 'Sub session creation failed'
+    ],
     "FINANCIAL_ACCOUNTS" => [
         "FINANCIAL_ACCOUNT_NOT_FOUND" => 'Financial account not found',
     ],
+    
 ];
