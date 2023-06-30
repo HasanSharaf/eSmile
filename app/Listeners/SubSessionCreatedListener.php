@@ -3,31 +3,19 @@
 namespace App\Listeners;
 
 use App\Events\SubSessionCreated;
+use App\Events\SubSessionUpdated;
+use Modules\Session\Entities\Session;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class SubSessionCreatedListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+    // ...
 
-    /**
-     * Handle the event.
-     *
-     * @param  \App\Events\SubSessionCreated  $event
-     * @return void
-     */
-    public function handle(SubSessionCreated $event)
+    public function handle($event)
     {
-        $createdSubSession = $event->subSession;
-        $session = $createdSubSession->session;
+        $subSession = $event->subSession;
+        $session = $subSession->session;
 
         // Calculate the sum of paid values from related subSessions
         $paidSum = $session->subSession()->sum('paid');
@@ -36,8 +24,9 @@ class SubSessionCreatedListener
         $remainingCost = $session->full_cost - $paidSum;
 
         // Update the session's paid and remaining_cost values
-        $session->paid = $paidSum;
-        $session->remaining_cost = $remainingCost;
-        $session->save();
+        $session->update([
+            'paid' => $paidSum,
+            'remaining_cost' => $remainingCost,
+        ]);
     }
 }

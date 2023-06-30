@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\SessionCreated;
+use App\Events\SessionUpdated;
 use App\Events\SubSessionCreated;
+use App\Events\SubSessionUpdated;
+use App\Listeners\SessionCreatedListener;
 use App\Listeners\SubSessionCreatedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -20,7 +24,16 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        SessionCreated::class => [
+            SessionCreatedListener::class,
+        ],
+        SessionUpdated::class => [
+            SessionCreatedListener::class,
+        ],
         SubSessionCreated::class => [
+            SubSessionCreatedListener::class,
+        ],
+        SubSessionUpdated::class => [
             SubSessionCreatedListener::class,
         ],
     ];

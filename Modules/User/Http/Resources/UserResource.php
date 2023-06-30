@@ -13,29 +13,25 @@ class UserResource extends BaseResource
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    public function toArray($item)
+    public function toArray($request)
     {
         try {
-            $this->collection = $this->collection->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'first_name' => $item->first_name,
-                    'last_name' => $item->last_name,
-                    'email' =>$item->email,
-                    'gender' => $item->gender ,
-                    'user_picture' => $item->user_picture,
-                    'phone_number' => $item->phone_number,
-                    'birthday' => $item->birthday,
-                    'location' => $item->location ,
-                    'location_details' => $item->location_details ,
-                    'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null ,
-                    'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') ?? null :$item->updated_at,
-                    // 'status' => $item->status ,
-                    // 'approved_at' => $item->approved_at ,
-                    // 'approved_by' => $item->approved_by  ,
-                ];
-            });
-            return $this->resolvePaginationResults($this);
+            $dataToReturn = [
+                'id' => $this->id,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => $this->email,
+                'gender' => $this->gender,
+                'user_picture' => $this->user_picture,
+                'phone_number' => $this->phone_number,
+                'birthday' => $this->birthday,
+                'location' => $this->location,
+                'location_details' => $this->location_details,
+                'createdAt' => $this->created_at ? Carbon::parse($this->created_at)->format('m/d/Y H:i') : null,
+                'updatedAt' => $this->updated_at ? Carbon::parse($this->updated_at)->format('m/d/Y H:i') ?? null : $this->updated_at,
+            ];
+
+            return $dataToReturn;
         } catch (\Throwable $th) {
            dd('aaa');
         }

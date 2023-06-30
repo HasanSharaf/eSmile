@@ -9,7 +9,7 @@ use Modules\Session\Entities\Session;
 use Modules\SubSession\Entities\SubSession;
 use Modules\User\Entities\User;
 use App\Events\SubSessionCreated;
-
+use App\Events\SubSessionUpdated;
 
 class SubSessionRepository extends EloquentBaseRepository
 {
@@ -74,6 +74,7 @@ class SubSessionRepository extends EloquentBaseRepository
         $subSession->description = $data['description'] ?? $subSession->description;
 
         $subSession->save();
+        event(new SubSessionUpdated($subSession));
         return $subSession;
     }
 

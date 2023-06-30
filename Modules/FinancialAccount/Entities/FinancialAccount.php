@@ -15,6 +15,9 @@ class FinancialAccount extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'full_cost',
+        'paid',
+        'remaining_cost',
     ];
 
 

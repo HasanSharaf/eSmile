@@ -12,20 +12,6 @@ use Modules\SubSession\Entities\SubSession;
 
 class FinancialAccountRepository extends EloquentBaseRepository
 {
-
-    /**
-     * Get Fixed Item.
-     *
-     */
-    // public function getUserById($id)
-    // {
-    //     $user = User::find($id);
-    //     if (!$user)
-    //         throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
-
-    //     return $user;
-    // }
-
     /**
     * Create Financial Account.
     *
@@ -35,43 +21,47 @@ class FinancialAccountRepository extends EloquentBaseRepository
     */
     public function createFinancialAccount($user_id, $data)
     {
-    // Check if the user exists
-    $user = User::find($user_id);
-    if (!$user) {
-        throw new \Exception("USERS.USER_NOT_FOUND");
-    }
+        // Check if the user exists
+        $user = User::find($user_id);
+        if (!$user) {
+            throw new \Exception("USERS.USER_NOT_FOUND");
+        }
 
-    // Create a new financial account for the user
-    $financialAccount = FinancialAccount::create([
-        'user_id' => $user_id,
-    ]);
+        // Create a new financial account for the user
+        $financialAccount = FinancialAccount::create([
+            'user_id' => $user_id,
+            'paid' => $data['paid'], // Store the paid value
+            'full_cost' => $data['full_cost'], // Store the full_cost value
+            'remaining_cost' => $data['full_cost'] - $data['paid'] , // Store the remaining_cost value as full_cost initially
+        ]);
 
-    // Create a new session with the financial_account_id and user_id
-    $createdSession = Session::create([
-        'financial_account_id' => $financialAccount->id,
-        'user_id' => $user_id,
-        'full_cost' => $data['full_cost'],
-        'payment_type' => $data['payment_type'],
-        'description' => $data['description'],
-    ]);
+        // Create a new session with the financial_account_id and user_id
+        $createdSession = Session::create([
+            'financial_account_id' => $financialAccount->id,
+            'user_id' => $user_id,
+            'paid' => $data['paid'],
+            'full_cost' => $data['full_cost'],
+            'remaining_cost' => $data['full_cost'] - $data['paid'] ,
+            'payment_type' => $data['payment_type'],
+            'description' => $data['description'],
+        ]);
 
-    // Create a new subSession with the paid value, description, and payment_type from the input data
-    $subSessionData = [
-        'session_id' => $createdSession->id,
-        'paid' => $data['paid'],
-        'description' => $data['description'],
-        'payment_type' => $data['payment_type'],
-    ];
+        // Create a new subSession with the paid value, description, and payment_type from the input data
+        $subSessionData = [
+            'session_id' => $createdSession->id,
+            'paid' => $data['paid'],
+            'description' => $data['description'],
+            'payment_type' => $data['payment_type'],
+        ];
 
-    SubSession::create($subSessionData);
+        SubSession::create($subSessionData);
 
-    // Update the paid and remaining_cost values in the session
-    $createdSession->update([
-        'paid' => $createdSession->subSession()->sum('paid'),
-        'remaining_cost' => $createdSession->full_cost - $createdSession->subSession()->sum('paid'),
-    ]);
+        // Update the paid and remaining_cost values in the financial account
+        $financialAccount->paid = $data['paid'];
+        $financialAccount->remaining_cost = $data['full_cost'] - $data['paid'];
+        $financialAccount->save();
 
-    return $createdSession;
+        return $createdSession;
     }
 
 
