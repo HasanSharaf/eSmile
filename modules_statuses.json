@@ -4,5 +4,6 @@
     "Session": true,
     "Accounting": true,
     "FinancialAccount": true,
-    "SubSession": true
+    "SubSession": true,
+    "Doctor": true
 }

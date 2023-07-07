@@ -17,7 +17,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasApiTokens;
 
- protected $table = 'users';
+    protected $table = 'users';
     protected $fillable = [
         'financial_account_id',
         'first_name',

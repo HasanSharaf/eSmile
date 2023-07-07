@@ -16,7 +16,8 @@ class UserResource extends BaseResource
     public function toArray($request)
     {
         try {
-            $dataToReturn = [
+            $this->collection = $this->collection->map(function ($item) {
+                return [
                 'id' => $this->id,
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
@@ -29,13 +30,11 @@ class UserResource extends BaseResource
                 'location_details' => $this->location_details,
                 'createdAt' => $this->created_at ? Carbon::parse($this->created_at)->format('m/d/Y H:i') : null,
                 'updatedAt' => $this->updated_at ? Carbon::parse($this->updated_at)->format('m/d/Y H:i') ?? null : $this->updated_at,
-            ];
-
-            return $dataToReturn;
+                ];
+            });
+            return $this->resolvePaginationResults($this);
         } catch (\Throwable $th) {
-           dd('aaa');
+            dd('aaa');
         }
-       
     }
-
 }
