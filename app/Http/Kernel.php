@@ -42,9 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
-           // \App\Http\Middleware\IntegraaAuth::class, //FIXME: Remove the comment to enable auth
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            // \Fruitcake\Cors\HandleCors::class,
 
         ],
        
