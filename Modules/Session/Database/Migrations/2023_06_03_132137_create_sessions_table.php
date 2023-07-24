@@ -16,7 +16,6 @@ return new class extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->double('full_cost')->nullable();
             $table->double('paid')->nullable();
             $table->double('remaining_cost')->nullable();
