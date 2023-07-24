@@ -44,8 +44,13 @@ class UserRepository extends EloquentBaseRepository
             $user->user_picture = 'pictures/' . $pictureName;
             $user->save();
         }
+
+        $token = $user->createToken('token-name')->plainTextToken;
         
-        return $user;
+        return [
+            "user" => $user,
+            "token" => $token,
+        ];
     }
     
   
