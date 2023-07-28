@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('sessions')->group(function() {
-    Route::post('createSession/{id}', 'SessionController@createSession');
-    Route::put('updateSession/{id}', 'SessionController@updateSession');
-    Route::delete('deleteSession/{id}', 'SessionController@deleteSession');
-    Route::get('getUserSessions/{id}', 'SessionController@getUserSessions');
+    Route::post('createSession/{userId}', 'SessionController@createSession');
+    Route::put('updateSession/{sessionId}', 'SessionController@updateSession');
+    Route::delete('deleteSession/{sessionId}', 'SessionController@deleteSession');
+    Route::get('getUserSessions/{userId}', 'SessionController@getUserSessions');
     Route::get('getAllSessions', 'SessionController@listSessions');
 
 
