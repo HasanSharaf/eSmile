@@ -11,9 +11,13 @@ return [
         'DELETED_SUCCESSFULLY' => 'Deleted successfully',
         'REVERSED_SUCCESSFULLY'=>'Reversed successfully'
     ],
+    "ADMINS" => [
+        "WELCOME" => 'welcome',
+        "ADMIN_NOT_FOUND" => 'Admin not found',
+    ],
     "USERS" => [
         "WELCOME" => 'welcome',
-        "USER_NOT_FOUND" => 'user not found',
+        "USER_NOT_FOUND" => 'User not found',
     ],
     "APPOINTMENTS" => [
         "APPOINTMENT_NOT_FOUND" => 'Appointment not found',
