@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\SubSessionCreated;
 use App\Events\SubSessionUpdated;
+use App\Events\SubSessionDeleted;
 use Modules\Session\Entities\Session;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

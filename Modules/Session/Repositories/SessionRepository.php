@@ -3,6 +3,7 @@
 namespace Modules\Session\Repositories;
 
 use App\Events\SessionCreated;
+use App\Events\SessionDeleted;
 use App\Events\SessionUpdated;
 use App\Helpers\Classes\Translator;
 use App\Repositories\EloquentBaseRepository;
@@ -113,6 +114,7 @@ class SessionRepository extends EloquentBaseRepository
         if (!$session)
             throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
         $session->delete();
+        event(new SessionDeleted($session));
         return $session;
     }
 

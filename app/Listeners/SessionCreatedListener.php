@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\SessionCreated;
 use App\Events\SessionUpdated;
+use App\Events\SessionDeleted;
 use Modules\FinancialAccount\Entities\FinancialAccount;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

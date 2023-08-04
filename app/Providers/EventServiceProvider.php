@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Events\SessionCreated;
 use App\Events\SessionUpdated;
+use App\Events\SessionDeleted;
 use App\Events\SubSessionCreated;
 use App\Events\SubSessionUpdated;
+use App\Events\SubSessionDeleted;
 use App\Listeners\SessionCreatedListener;
 use App\Listeners\SubSessionCreatedListener;
 use Illuminate\Auth\Events\Registered;
@@ -30,10 +32,16 @@ class EventServiceProvider extends ServiceProvider
         SessionUpdated::class => [
             SessionCreatedListener::class,
         ],
+        SessionDeleted::class => [
+            SessionCreatedListener::class,
+        ],
         SubSessionCreated::class => [
             SubSessionCreatedListener::class,
         ],
         SubSessionUpdated::class => [
+            SubSessionCreatedListener::class,
+        ],
+        SubSessionDeleted::class => [
             SubSessionCreatedListener::class,
         ],
     ];
