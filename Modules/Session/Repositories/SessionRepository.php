@@ -99,9 +99,9 @@ class SessionRepository extends EloquentBaseRepository
         return $session;
     }
 
-    public function getSessionByUserId($user_id)
+    public function getSessionByUserId($financial_account_id)
     {
-        return Session::where('user_id', $user_id)->get();
+        return Session::where('financial_account_id', $financial_account_id)->get();
     }
 
     /**
@@ -134,7 +134,7 @@ class SessionRepository extends EloquentBaseRepository
      */
     public function getSessionQuery()
     {
-        return Session::with(['user']);
+        return Session::with(['financialAccount']);
     }
 
 
