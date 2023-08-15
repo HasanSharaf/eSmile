@@ -21,14 +21,34 @@ class FinancialAccountResource extends BaseResource
     public function toArray($request)
     {
         $this->collection = $this->collection->map(function ($item) {
-            $item->loadMissing('financialAccount.user');
+            $item->loadMissing('financialAccount.user', 'financialAccount.session'); // Load session and sub session relationships
 
             $additionalData = [
                 'user' => $item->financialAccount->user ?? [],
+                'sessions' => $item->financialAccount->session->map(function ($session) {
+                    return [
+                        'session_id' => $session->id,
+                        'full_cost' => $session->full_cost,
+                        'paid' => $session->paid,
+                        'remaining_cost' => $session->remaining_cost,
+                        'createdAt' => $session->created_at ? Carbon::parse($session->created_at)->format('m/d/Y H:i') : null,
+                        'updatedAt' => $session->updated_at ? Carbon::parse($session->updated_at)->format('m/d/Y H:i') : null,
+                        'sub_sessions' => $session->subSession->map(function ($subSession) {
+                            return [
+                                'id' => $subSession->id,
+                                'session_id' => $subSession->session->id,
+                                'paid' => $subSession->paid,
+                                'note' => $subSession->note,
+                                'createdAt' => $subSession->created_at ? Carbon::parse($subSession->created_at)->format('m/d/Y H:i') : null,
+                                'updatedAt' => $subSession->updated_at ? Carbon::parse($subSession->updated_at)->format('m/d/Y H:i') : null,
+                            ];
+                        }),
+                    ];
+                }),
             ];
 
             $dataToReturn = [
-                'id' => $item->id,
+                'session_id' => $item->id,
                 'user_id' => $item->financialAccount->user->id,
                 'full_cost' => $item->full_cost,
                 'paid' => $item->paid,

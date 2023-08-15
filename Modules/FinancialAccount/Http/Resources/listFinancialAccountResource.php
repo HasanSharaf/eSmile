@@ -36,21 +36,33 @@ class ListFinancialAccountResource extends ResourceCollection
                         'remaining_cost' => $item->remaining_cost,
                         'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null,
                         'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') : null,
-                        // 'sessions' => [
-                        //     'data' => $item->session->map(function ($session) {
-                        //         return [
-                        //             'id' => $session->id,
-                        //             'financial_account_id' => $session->financialAccount->id,
-                        //             'full_cost' => $session->full_cost,
-                        //             'paid' => $session->paid,
-                        //             'payment_type' => $session->payment_type,
-                        //             'remaining_cost' => $session->remaining_cost,
-                        //             'description' => $session->description,
-                        //             'createdAt' => $session->created_at ? Carbon::parse($session->created_at)->format('m/d/Y H:i') : null,
-                        //             'updatedAt' => $session->updated_at ? Carbon::parse($session->updated_at)->format('m/d/Y H:i') : null,
-                        //         ];
-                        //     }),
-                        // ],
+                        'sessions' => [
+                            'data' => $item->session->map(function ($session) {
+                                return [
+                                    'id' => $session->id,
+                                    'financial_account_id' => $session->financialAccount->id,
+                                    'full_cost' => $session->full_cost,
+                                    'paid' => $session->paid,
+                                    'payment_type' => $session->payment_type,
+                                    'remaining_cost' => $session->remaining_cost,
+                                    'description' => $session->description,
+                                    'createdAt' => $session->created_at ? Carbon::parse($session->created_at)->format('m/d/Y H:i') : null,
+                                    'updatedAt' => $session->updated_at ? Carbon::parse($session->updated_at)->format('m/d/Y H:i') : null,
+                                    'subSessions' => [
+                                        'data' => $session->subSession->map(function ($subSession) {
+                                            return [
+                                                'id' => $subSession->id,
+                                                'session_id' => $subSession->session->id,
+                                                'paid' => $subSession->paid,
+                                                'note' => $subSession->note,
+                                                'createdAt' => $subSession->created_at ? Carbon::parse($subSession->created_at)->format('m/d/Y H:i') : null,
+                                                'updatedAt' => $subSession->updated_at ? Carbon::parse($subSession->updated_at)->format('m/d/Y H:i') : null,
+                                            ];
+                                        }),
+                                    ],
+                                ];
+                            }),
+                        ],
                     ];
         });
     }

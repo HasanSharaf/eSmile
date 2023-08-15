@@ -45,12 +45,13 @@ class UserRepository extends EloquentBaseRepository
             $user->save();
         }
 
-        $token = $user->createToken('token-name')->plainTextToken;
+        // $token = $user->createToken('token-name')->plainTextToken;
         
-        return [
-            "user" => $user,
-            "token" => $token,
-        ];
+        // return [
+        //     "user" => $user,
+        //     "token" => $token,
+        // ];
+        return $user;
     }
     
   
