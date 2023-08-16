@@ -5,6 +5,7 @@ namespace Modules\Appointment\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Doctor\Entities\Doctor;
 
 class Appointment extends Model
 {
@@ -13,6 +14,7 @@ class Appointment extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'doctor_id',
         'selected_time',
         'note',
     ];
@@ -21,6 +23,11 @@ class Appointment extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
     
 }

@@ -5,6 +5,7 @@ namespace Modules\Appointment\Repositories;
 use App\Helpers\Classes\Translator;
 use App\Repositories\EloquentBaseRepository;
 use Modules\Appointment\Entities\Appointment;
+use Modules\Doctor\Entities\Doctor;
 use Modules\User\Entities\User;
 
 class AppointmentRepository extends EloquentBaseRepository
@@ -13,14 +14,31 @@ class AppointmentRepository extends EloquentBaseRepository
     * Create Appointment
     * @return Appointment
     */
-    public  function createAppointment($user_id,$data)
+    public  function createAppointment($user_id, $doctor_id, $data)
     {
         try {
             $user = User::findOrFail($user_id);
+            $data['doctor_id'] = $doctor_id;
         } catch (\Throwable $th) {
-            throw new \Exception(Translator::translate("USER.USER_NOT_FOUND"), 404);
+            throw new \Exception(Translator::translate("USERS.USER_NOT_FOUND"), 404);
         }
         $data = $user->appointment()->create($data);
+        return $data;
+    }
+
+    /**
+    * Create Appointment From Doctor
+    * @return Appointment
+    */
+    public  function createAppointmentFromDoctor($user_id, $doctor_id, $data)
+    {
+        try {
+            $doctor = Doctor::findOrFail($doctor_id); // Note: Find doctor, not user
+            $data['user_id'] = $user_id;
+        } catch (\Throwable $th) {
+            throw new \Exception(Translator::translate("DOCTORS.DOCTOR_NOT_FOUND"), 404);
+        }
+        $data = $doctor->appointment()->create($data);
         return $data;
     }
 

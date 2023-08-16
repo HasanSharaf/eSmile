@@ -5,6 +5,7 @@ namespace Modules\Doctor\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Appointment\Entities\Appointment;
 
 class Doctor extends Model
 {
@@ -45,4 +46,8 @@ class Doctor extends Model
         'email_verified_at' => 'datetime',
     ];
     
+    public function appointment()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

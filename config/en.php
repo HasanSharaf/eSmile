@@ -19,6 +19,10 @@ return [
         "WELCOME" => 'welcome',
         "USER_NOT_FOUND" => 'User not found',
     ],
+    "DOCTORS" => [
+        "WELCOME" => 'welcome',
+        "DOCTOR_NOT_FOUND" => 'Doctor not found',
+    ],
     "APPOINTMENTS" => [
         "APPOINTMENT_NOT_FOUND" => 'Appointment not found',
     ],

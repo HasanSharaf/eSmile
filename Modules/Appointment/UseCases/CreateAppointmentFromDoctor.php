@@ -11,11 +11,11 @@ use App\Models\ResponseStatus;
 use Illuminate\Support\Facades\Request;
 
 /**
- * Class CreateAppointment
+ * Class Create Appointment From Doctor
  *
  * @package Modules\Appointment\UseCases
  */
-class CreateAppointment
+class CreateAppointmentFromDoctor
 {
 
    private $appointmentRepository ;
@@ -30,14 +30,13 @@ class CreateAppointment
     }
 
     /**
-     * Create Appointment.
+     * Create Appointment From Doctor.
      * @return Appointment
      */
     public function execute($user_id, $doctor_id, $data)
     {
         try {
-            $appointment = $this->appointmentRepository->createAppointment($user_id, $doctor_id, $data);
-            // dd($appointment);
+            $appointment = $this->appointmentRepository->createAppointmentFromDoctor($user_id, $doctor_id, $data);
             return new UseCaseResult(ResponseStatus::successCode, new AppointmentResource([$appointment]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();

@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('appointments')->group(function() {
-    Route::post('create/{id}', 'AppointmentController@createAppointment');
+    Route::post('create/{userId}', 'AppointmentController@createAppointment');
+    Route::post('createFromDoctor/{doctorId}', 'AppointmentController@createAppointmentFromDoctor');
     Route::get('getUserAppointments/{id}', 'AppointmentController@getUserAppointments');
     Route::delete('deleteAppointment/{id}', 'AppointmentController@deleteAppointment');
     Route::get('getAllAppointments', 'AppointmentController@listAppointments');

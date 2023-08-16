@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Modules\Appointment\Http\Requests\CreateAppointmentRequest;
 use Modules\Appointment\Repositories\AppointmentRepository;
 use Modules\Appointment\UseCases\CreateAppointment;
+use Modules\Appointment\UseCases\CreateAppointmentFromDoctor;
 use Modules\Appointment\UseCases\DeleteAppointment;
 use Modules\Appointment\UseCases\GetAppointmentsByUserId;
 use Modules\Appointment\UseCases\ListAppointment;
@@ -32,11 +33,13 @@ class AppointmentController extends Controller
     * Create Appointment.
     * @return Response
     */
-    public function createAppointment($user_id ,CreateAppointmentRequest $request ,CreateAppointment $createAppointment)
+    public function createAppointment($user_id, CreateAppointmentRequest $request, CreateAppointment $createAppointment)
     {
-        $result = $createAppointment->execute($user_id,$request->all());
+        $doctor_id = $request->input('doctor_id'); // Get the selected doctor_id from the request
+        $result = $createAppointment->execute($user_id, $doctor_id, $request->all());
         return $this->handleResponse($result);
     }
+
 
     /**
     * Get User Appointments.
@@ -67,5 +70,18 @@ class AppointmentController extends Controller
         $appointments = $listAppointments->execute($request->all());
         return $this->handleResponse($appointments);
     }
+
+    /**
+    * Create Appointment From Doctor.
+    * @return Response
+    */
+    public function createAppointmentFromDoctor($doctor_id, Request $request, CreateAppointmentFromDoctor $createAppointmentFromDoctor)
+    {
+        $user_id = $request->user_id;
+        $result = $createAppointmentFromDoctor->execute($user_id, $doctor_id, $request->all());
+        return $this->handleResponse($result);
+    }
+
+
 
 }
