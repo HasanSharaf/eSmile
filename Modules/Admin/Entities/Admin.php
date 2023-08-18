@@ -20,6 +20,7 @@ class Admin extends Model
         'location',
         'birthday',
         'admin_picture',
+        'type',
     ];
     
 }

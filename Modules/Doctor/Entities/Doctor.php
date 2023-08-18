@@ -22,6 +22,7 @@ class Doctor extends Model
         'location',
         'location_details',
         'years_of_experience',
+        'type',
         'gender',
         'doctor_picture',
 

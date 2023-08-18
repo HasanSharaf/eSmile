@@ -29,6 +29,7 @@ class DoctorResource extends BaseResource
                     'location' => $item->location,
                     'location_details' => $item->location_details,
                     'years_of_experience' => $item->years_of_experience,
+                    'type' => $item->type,
                     'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null,
                     'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') ?? null : $item->updated_at,
                 ];

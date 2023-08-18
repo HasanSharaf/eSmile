@@ -26,6 +26,7 @@ class AdminResource extends BaseResource
                     'location' => $item->location ,
                     'birthday' => $item->birthday,
                     'admin_picture' => $item->admin_picture,
+                    'type' => $item->type,
                     'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null ,
                     'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') ?? null :$item->updated_at,
                     // 'status' => $item->status ,

@@ -3,6 +3,7 @@
 namespace Modules\Admin\Repositories;
 
 use App\Helpers\Classes\Translator;
+use App\Models\EType;
 use App\Repositories\EloquentBaseRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +27,7 @@ class AdminRepository extends EloquentBaseRepository
             'phone_number' => $data['phone_number'],
             'birthday' => $data['birthday'],
             'location' => $data['location'],
+            'type' => EType::ADMIN,
         ]);
     
         if ($data->hasFile('admin_picture') && $data->file('admin_picture')->isValid()) {
@@ -80,6 +82,12 @@ class AdminRepository extends EloquentBaseRepository
         $admin->phone_number = $data['phone_number'] ?? $admin->phone_number;
         $admin->location = $data['location'] ?? $admin->location;
         $admin->birthday = $data['birthday'] ?? $admin->birthday;
+        $admin->type = $data['type'] ?? $admin->type;
+
+        // Check if the provided type is valid
+        if (!in_array($admin->type, [EType::DOCTOR, EType::ADMIN, EType::USER])) {
+            throw new \InvalidArgumentException('Invalid type provided');
+        }
 
         if (isset($data['admin_picture']) && $data['admin_picture']->isValid()) {
             // Delete the previous admin picture if it exists

@@ -3,6 +3,7 @@
 namespace Modules\Doctor\Repositories;
 
 use App\Helpers\Classes\Translator;
+use App\Models\EType;
 use App\Repositories\BaseRepository;
 use App\Repositories\EloquentBaseRepository;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,7 @@ class DoctorRepository extends EloquentBaseRepository
             'location' => $data['location'],
             'location_details' => $data['location_details'],
             'years_of_experience' => $data['years_of_experience'],
+            'type' => EType::DOCTOR,
         ]);
     
         if ($data->hasFile('doctor_picture') && $data->file('doctor_picture')->isValid()) {
@@ -86,6 +88,12 @@ class DoctorRepository extends EloquentBaseRepository
         $doctor->location = $data['location'] ?? $doctor->location;
         $doctor->location_details = $data['location_details'] ?? $doctor->location_details;
         $doctor->birthday = $data['birthday'] ?? $doctor->birthday;
+        $doctor->type = $data['type'] ?? $doctor->type;
+
+        // Check if the provided type is valid
+        if (!in_array($doctor->type, [EType::DOCTOR, EType::ADMIN, EType::USER])) {
+            throw new \InvalidArgumentException('Invalid type provided');
+        }
 
         if (isset($data['doctor_picture']) && $data['doctor_picture']->isValid()) {
             // Delete the previous doctor picture if it exists
