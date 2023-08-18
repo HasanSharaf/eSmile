@@ -37,7 +37,7 @@ class Login
             $user = $this->userRepository->login($request);
             $token = $user->createToken('token-name')->plainTextToken;
            
-            return new UseCaseResult(ResponseStatus::successCode, [new UserLoginResource([$user]),'token' => $token], 1, '');
+            return new UseCaseResult(ResponseStatus::successCode, [new UserResource([$user]),'token' => $token], 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

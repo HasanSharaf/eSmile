@@ -34,7 +34,9 @@ class Register
     {
         try {
             $user = $this->userRepository->register($request);
-            return new UseCaseResult(ResponseStatus::successCreate, new UserResource([$user]), 1, '');
+            $token = $user->createToken('token-name')->plainTextToken;
+
+            return new UseCaseResult(ResponseStatus::successCreate, [new UserResource([$user]),'token' => $token], 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

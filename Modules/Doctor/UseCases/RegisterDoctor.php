@@ -34,7 +34,9 @@ class RegisterDoctor
     {
         try {
             $doctor = $this->doctorRepository->registerDoctor($request);
-            return new UseCaseResult(ResponseStatus::successCreate, new DoctorResource([$doctor]), 1, '');
+            $token = $doctor->createToken('token-name')->plainTextToken;
+
+            return new UseCaseResult(ResponseStatus::successCreate, [new DoctorResource([$doctor]),'token' => $token], 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

@@ -35,9 +35,9 @@ class LoginAdmin
     {
         try {
             $admin = $this->adminRepository->loginAdmin($request);
-            // $token = $user->createToken('token-name')->plainTextToken;
+            $token = $admin->createToken('token-name')->plainTextToken;
            
-            return new UseCaseResult(ResponseStatus::successCode, new AdminLoginResource([$admin]), 1, '');
+            return new UseCaseResult(ResponseStatus::successCode, [new AdminResource([$admin]),'token' => $token], 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

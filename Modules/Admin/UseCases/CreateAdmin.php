@@ -34,7 +34,9 @@ class CreateAdmin
     {
         try {
             $admin = $this->adminRepository->createAdmin($request);
-            return new UseCaseResult(ResponseStatus::successCreate, new AdminResource([$admin]), 1, '');
+            $token = $admin->createToken('token-name')->plainTextToken;
+
+            return new UseCaseResult(ResponseStatus::successCreate, [new AdminResource([$admin]),'token' => $token], 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

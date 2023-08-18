@@ -44,13 +44,6 @@ class UserRepository extends EloquentBaseRepository
             $user->user_picture = 'pictures/' . $pictureName;
             $user->save();
         }
-
-        // $token = $user->createToken('token-name')->plainTextToken;
-        
-        // return [
-        //     "user" => $user,
-        //     "token" => $token,
-        // ];
         return $user;
     }
     
@@ -72,8 +65,13 @@ class UserRepository extends EloquentBaseRepository
     */
     public  function logout()
     {
-        $logout = Auth::logout();
-        return $logout;
+        $user = auth()->user();
+
+        $user->tokens->each(function ($token) {
+            $token->delete();
+        });
+
+        Auth::logout();    
     }
 
     /**
