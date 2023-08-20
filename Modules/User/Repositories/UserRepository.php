@@ -65,13 +65,8 @@ class UserRepository extends EloquentBaseRepository
     */
     public  function logout()
     {
-        $user = auth()->user();
-
-        $user->tokens->each(function ($token) {
-            $token->delete();
-        });
-
-        Auth::logout();    
+        $logout = Auth::logout();
+        return $logout;
     }
 
     /**

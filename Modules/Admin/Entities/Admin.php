@@ -3,7 +3,6 @@
 namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Admin extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
+
     protected $table = 'admins';
     protected $fillable = [
         'id',

@@ -18,22 +18,29 @@ class SessionCreatedListener
     {
         $session = $event->session;
         $financialAccount = $session->financialAccount;
-
+    
         // Retrieve the user_id from the financial account
         $user_id = $financialAccount->user_id;
-
+    
         // Retrieve the related sessions for the user
         $relatedSessions = $financialAccount->session;
-
+    
         // Calculate the sum of full_cost, paid, and remaining_cost from the related sessions
         $totalFullCost = $relatedSessions->sum('full_cost');
         $totalPaid = $relatedSessions->sum('paid');
         $totalRemainingCost = $relatedSessions->sum('remaining_cost');
-
+    
         // Update the financial account's full_cost, paid, and remaining_cost values
         $financialAccount->full_cost = $totalFullCost;
         $financialAccount->paid = $totalPaid;
         $financialAccount->remaining_cost = $totalRemainingCost;
         $financialAccount->save();
+    
+        // Update the paid values in related sub sessions
+        foreach ($session->subSession as $subSession) {
+            $subSession->paid = $session->paid;
+            $subSession->save();
+        }
     }
+    
 }
