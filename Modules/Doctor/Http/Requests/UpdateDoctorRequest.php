@@ -33,6 +33,11 @@ class UpdateDoctorRequest extends FormRequest
             'location' => ['string','min:3','max:255'],
             'location_details' => ['string','min:3','max:255'],
             'doctor_picture' => ['nullable', 'image','max:2048'],
+            // 'competence_type' => ['nullable', 'image','max:2048'],
+            // 'start_day' => ['nullable', 'image','max:2048'],
+            // 'start_time' => ['nullable', 'image','max:2048'],
+            // 'end_day' => ['nullable', 'image','max:2048'],
+            // 'end_time' => ['nullable', 'image','max:2048'],
         ];
     }
 

@@ -25,7 +25,11 @@ class Doctor extends Model
         'type',
         'gender',
         'doctor_picture',
-
+        'competence_type',
+        'start_day',
+        'end_day',
+        'start_time',
+        'end_time',
     ];
 
     /**

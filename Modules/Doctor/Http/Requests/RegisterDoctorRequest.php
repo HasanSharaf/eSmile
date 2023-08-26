@@ -34,6 +34,11 @@ class RegisterDoctorRequest extends FormRequest
             'location' => ['required', 'string','min:3','max:255'],
             'location_details' => ['required', 'string','min:3','max:255'],
             'doctor_picture' => ['nullable', 'image','max:2048'],
+            // 'competence_type' => ['nullable', 'image','max:2048'],
+            // 'start_day' => ['nullable', 'image','max:2048'],
+            // 'start_time' => ['nullable', 'image','max:2048'],
+            // 'end_day' => ['nullable', 'image','max:2048'],
+            // 'end_time' => ['nullable', 'image','max:2048'],
             
         ];
     }

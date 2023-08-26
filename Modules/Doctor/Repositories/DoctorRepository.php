@@ -4,6 +4,7 @@ namespace Modules\Doctor\Repositories;
 
 use App\Helpers\Classes\Translator;
 use App\Models\EType;
+use App\Models\EWeekDayType;
 use App\Repositories\BaseRepository;
 use App\Repositories\EloquentBaseRepository;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Modules\Doctor\Entities\Doctor;
 use Laravel\Sanctum\PersonalAccessToken;
+use Modules\Doctor\Models\ECompetenceType;
 use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
 use Modules\Session\Models\EPaymentType;
@@ -36,6 +38,35 @@ class DoctorRepository extends EloquentBaseRepository
             'location_details' => $data['location_details'],
             'years_of_experience' => $data['years_of_experience'],
             'type' => EType::DOCTOR,
+            'competence_type' => [
+            ECompetenceType::GENERAL_DENTISTRY,
+            ECompetenceType::ORTHODONTICS,
+            ECompetenceType::PERIODONTOLOGY_AND_ORAL_SURGERY,
+            ECompetenceType::COSMETIC_DENTISTRY,
+            ECompetenceType::CHILDRENS_DENTISTRY,
+            ECompetenceType::NEUROLOGY_IN_DENTISTRY,
+            ],
+            'start_day' => [
+            EWeekDayType::SATURDAY,
+            EWeekDayType::SUNDAY,
+            EWeekDayType::MONDAY,
+            EWeekDayType::TUESDAY,
+            EWeekDayType::WEDNESDAY,
+            EWeekDayType::THURSDAY,
+            EWeekDayType::FRIDAY,
+            ],
+            'end_day' => [
+                EWeekDayType::SATURDAY,
+                EWeekDayType::SUNDAY,
+                EWeekDayType::MONDAY,
+                EWeekDayType::TUESDAY,
+                EWeekDayType::WEDNESDAY,
+                EWeekDayType::THURSDAY,
+                EWeekDayType::FRIDAY,
+            ],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            
         ]);
     
         if ($data->hasFile('doctor_picture') && $data->file('doctor_picture')->isValid()) {
@@ -89,6 +120,12 @@ class DoctorRepository extends EloquentBaseRepository
         $doctor->location_details = $data['location_details'] ?? $doctor->location_details;
         $doctor->birthday = $data['birthday'] ?? $doctor->birthday;
         $doctor->type = $data['type'] ?? $doctor->type;
+        $doctor->competence_type = $data['competence_type'] ?? $doctor->competence_type;
+        $doctor->start_day = $data['start_day'] ?? $doctor->tstart_dayype;
+        $doctor->end_day = $data['end_day'] ?? $doctor->end_day;
+        $doctor->start_time = $data['start_time'] ?? $doctor->start_time;
+        $doctor->end_time = $data['end_time'] ?? $doctor->end_time;
+        
 
         // Check if the provided type is valid
         if (!in_array($doctor->type, [EType::DOCTOR, EType::ADMIN, EType::USER])) {
