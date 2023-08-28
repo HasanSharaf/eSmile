@@ -3,13 +3,18 @@
 namespace App\Providers;
 
 use App\Events\SessionCreated;
+use App\Events\SessionCreatedEvent;
 use App\Events\SessionUpdated;
-use App\Events\SessionDeleted;
+use App\Events\SessionDeletedEvent;
 use App\Events\SubSessionCreated;
+use App\Events\SubSessionCreatedEvent;
 use App\Events\SubSessionUpdated;
-use App\Events\SubSessionDeleted;
+use App\Events\SubSessionUpdatedEvent;
 use App\Listeners\SessionCreatedListener;
+use App\Listeners\SessionDeletedListener;
 use App\Listeners\SubSessionCreatedListener;
+use App\Listeners\SubSessionDeletedListener;
+use App\Listeners\SubSessionUpdatedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -26,23 +31,23 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        SessionCreated::class => [
+        SessionCreatedEvent::class => [
             SessionCreatedListener::class,
         ],
-        SessionUpdated::class => [
-            SessionCreatedListener::class,
+        // SessionUpdated::class => [
+        //     SessionCreatedListener::class,
+        // ],
+        SessionDeletedEvent::class => [
+            SessionDeletedListener::class,
         ],
-        SessionDeleted::class => [
-            SessionCreatedListener::class,
-        ],
-        SubSessionCreated::class => [
+        SubSessionCreatedEvent::class => [
             SubSessionCreatedListener::class,
         ],
-        SubSessionUpdated::class => [
-            SubSessionCreatedListener::class,
+        SubSessionUpdatedEvent::class => [
+            SubSessionUpdatedListener::class,
         ],
-        SubSessionDeleted::class => [
-            SubSessionCreatedListener::class,
+        SubSessionDeletedEvent::class => [
+            SubSessionDeletedListener::class,
         ],
     ];
 
@@ -53,7 +58,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        parent::boot();
     }
 
     /**
@@ -63,6 +68,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function shouldDiscoverEvents()
     {
-        return false;
+        return true;
     }
 }

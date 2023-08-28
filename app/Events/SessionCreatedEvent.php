@@ -9,22 +9,22 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Modules\SubSession\Entities\SubSession;
+use Modules\Session\Entities\Session;
 
-class SubSessionCreated
+class SessionCreatedEvent
 {
     use Dispatchable, SerializesModels;
 
-    public $subSession;
+    public $session;
 
     /**
      * Create a new event instance.
      *
-     * @param  SubSession  $subSession
+     * @param  Session  $session
      * @return void
      */
-    public function __construct(SubSession $subSession)
+    public function __construct(Session $session)
     {
-        $this->subSession = $subSession;
+        $this->session = $session;
     }
 }

@@ -9,8 +9,11 @@ use Modules\Session\Entities\Session;
 use Modules\SubSession\Entities\SubSession;
 use Modules\User\Entities\User;
 use App\Events\SubSessionCreated;
+use App\Events\SubSessionCreatedEvent;
 use App\Events\SubSessionDeleted;
+use App\Events\SubSessionDeletedEvent;
 use App\Events\SubSessionUpdated;
+use App\Events\SubSessionUpdatedEvent;
 
 class SubSessionRepository extends EloquentBaseRepository
 {
@@ -53,7 +56,7 @@ class SubSessionRepository extends EloquentBaseRepository
         ]);
         
         // Dispatch the event
-        event(new SubSessionCreated($subSession));
+        event(new SubSessionCreatedEvent($subSession));
 
         return $subSession;
     }
@@ -75,7 +78,7 @@ class SubSessionRepository extends EloquentBaseRepository
         $subSession->description = $data['description'] ?? $subSession->description;
 
         $subSession->save();
-        event(new SubSessionUpdated($subSession));
+        event(new SubSessionUpdatedEvent($subSession));
         return $subSession;
     }
 
@@ -94,7 +97,7 @@ class SubSessionRepository extends EloquentBaseRepository
         if (!$subSession)
             throw new \Exception(Translator::translate("SUB_SESSIONS.SUB_SESSION_NOT_FOUND"), 404);
         $subSession->delete();
-        event(new SubSessionDeleted($subSession));
+        event(new SubSessionDeletedEvent($subSession));
         return $subSession;
     }
 

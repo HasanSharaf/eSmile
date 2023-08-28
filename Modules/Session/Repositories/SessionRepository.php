@@ -4,8 +4,10 @@ namespace Modules\Session\Repositories;
 
 use App\Events\SessionCreated;
 use App\Events\SessionDeleted;
+use App\Events\SessionDeletedEvent;
 use App\Events\SessionUpdated;
 use App\Helpers\Classes\Translator;
+use App\Listeners\SessionCreatedListener;
 use App\Repositories\EloquentBaseRepository;
 use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
@@ -69,7 +71,7 @@ class SessionRepository extends EloquentBaseRepository
             'remaining_cost' => $createdSession->full_cost - $createdSession->subSession()->sum('paid'),
         ]);
 
-        event(new SessionCreated($createdSession));
+        event(new SessionCreatedListener($createdSession));
 
         return $createdSession;
     }
@@ -114,7 +116,7 @@ class SessionRepository extends EloquentBaseRepository
         if (!$session)
             throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
         $session->delete();
-        event(new SessionDeleted($session));
+        event(new SessionDeletedEvent($session));
         return $session;
     }
 
