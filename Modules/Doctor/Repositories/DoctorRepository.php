@@ -38,35 +38,11 @@ class DoctorRepository extends EloquentBaseRepository
             'location_details' => $data['location_details'],
             'years_of_experience' => $data['years_of_experience'],
             'type' => EType::DOCTOR,
-            'competence_type' => [
-            ECompetenceType::GENERAL_DENTISTRY,
-            ECompetenceType::ORTHODONTICS,
-            ECompetenceType::PERIODONTOLOGY_AND_ORAL_SURGERY,
-            ECompetenceType::COSMETIC_DENTISTRY,
-            ECompetenceType::CHILDRENS_DENTISTRY,
-            ECompetenceType::NEUROLOGY_IN_DENTISTRY,
-            ],
-            'start_day' => [
-            EWeekDayType::SATURDAY,
-            EWeekDayType::SUNDAY,
-            EWeekDayType::MONDAY,
-            EWeekDayType::TUESDAY,
-            EWeekDayType::WEDNESDAY,
-            EWeekDayType::THURSDAY,
-            EWeekDayType::FRIDAY,
-            ],
-            'end_day' => [
-                EWeekDayType::SATURDAY,
-                EWeekDayType::SUNDAY,
-                EWeekDayType::MONDAY,
-                EWeekDayType::TUESDAY,
-                EWeekDayType::WEDNESDAY,
-                EWeekDayType::THURSDAY,
-                EWeekDayType::FRIDAY,
-            ],
+            'competence_type' => $data['competence_type'],
+            'start_day' => $data['start_day'],
+            'end_day' => $data['end_day'],
             'start_time' => $data['start_time'],
-            'end_time' => $data['end_time'],
-            
+            'end_time' => $data['end_time'],   
         ]);
     
         if ($data->hasFile('doctor_picture') && $data->file('doctor_picture')->isValid()) {
@@ -77,7 +53,7 @@ class DoctorRepository extends EloquentBaseRepository
             $doctor->doctor_picture = 'pictures/' . $pictureName;
             $doctor->save();
         }
-        
+
         return $doctor;
     }
     
@@ -121,7 +97,7 @@ class DoctorRepository extends EloquentBaseRepository
         $doctor->birthday = $data['birthday'] ?? $doctor->birthday;
         $doctor->type = $data['type'] ?? $doctor->type;
         $doctor->competence_type = $data['competence_type'] ?? $doctor->competence_type;
-        $doctor->start_day = $data['start_day'] ?? $doctor->tstart_dayype;
+        $doctor->start_day = $data['start_day'] ?? $doctor->start_day;
         $doctor->end_day = $data['end_day'] ?? $doctor->end_day;
         $doctor->start_time = $data['start_time'] ?? $doctor->start_time;
         $doctor->end_time = $data['end_time'] ?? $doctor->end_time;
