@@ -9,6 +9,7 @@ use App\Events\SessionUpdated;
 use App\Helpers\Classes\Translator;
 use App\Listeners\SessionCreatedListener;
 use App\Repositories\EloquentBaseRepository;
+use Illuminate\Support\Facades\Storage;
 use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
 use Modules\SubSession\Entities\SubSession;
@@ -55,6 +56,15 @@ class SessionRepository extends EloquentBaseRepository
             'description' => $data['description'],
         ]);
 
+        if (isset($data['xray_picture']) && $data['xray_picture']->isValid()) {
+            $sessionPicture = $data['xray_picture'];
+            $extension = $sessionPicture->getClientOriginalExtension();
+            $pictureName = uniqid('sessionPic') . '.' . $extension;
+            $sessionPicture->storeAs('public/pictures', $pictureName);
+            $createdSession->xray_picture = 'pictures/' . $pictureName;
+            $createdSession->save();
+        }
+
         // Create a new subSession with the paid value, description, and payment_type from the input data
         $subSessionData = [
             'session_id' => $createdSession->id,
@@ -93,6 +103,18 @@ class SessionRepository extends EloquentBaseRepository
         $session->remaining_cost = $session->full_cost - $session->paid;
         $session->payment_type = $data['payment_type'] ?? $session->payment_type;
         $session->description = $data['description'] ?? $session->description;
+
+        if (isset($data['xray_picture']) && $data['xray_picture']->isValid()) {
+            // Delete the previous session picture if it exists
+            if ($session->xray_picture && Storage::exists('public/' . $session->xray_picture)) {
+                Storage::delete('public/' . $session->xray_picture);
+            }
+
+            $extension = $data['xray_picture']->getClientOriginalExtension();
+            $pictureName = uniqid('sessionPic') . '.' . $extension;
+            $data['xray_picture']->storeAs('public/pictures', $pictureName);
+            $session->xray_picture = 'pictures/' . $pictureName;
+        }
 
         $session->save();
 

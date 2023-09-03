@@ -34,6 +34,11 @@ class UserRepository extends EloquentBaseRepository
             'location' => $data['location'],
             'location_details' => $data['location_details'],
             'financial_account_id' => null, // Default value for financial_account_id
+            'clinic_knowledge' => $data['clinic_knowledge'],
+            'clinic_note' => $data['clinic_note'],
+            'sickness' => $data['sickness'],
+            'sensitive' => $data['sensitive'],
+            'sensitive_note' => $data['sensitive_note'],
         ]);
     
         if ($data->hasFile('user_picture') && $data->file('user_picture')->isValid()) {
@@ -85,6 +90,11 @@ class UserRepository extends EloquentBaseRepository
         $user->location = $data['location'] ?? $user->location;
         $user->location_details = $data['location_details'] ?? $user->location_details;
         $user->birthday = $data['birthday'] ?? $user->birthday;
+        $user->clinic_knowledge = $data['clinic_knowledge'] ?? $user->clinic_knowledge;
+        $user->clinic_note = $data['clinic_note'] ?? $user->clinic_note;
+        $user->sickness = $data['sickness'] ?? $user->sickness;
+        $user->sensitive = $data['sensitive'] ?? $user->sensitive;
+        $user->sensitive_note = $data['sensitive_note'] ?? $user->sensitive_note;
 
         if (isset($data['user_picture']) && $data['user_picture']->isValid()) {
             // Delete the previous user picture if it exists

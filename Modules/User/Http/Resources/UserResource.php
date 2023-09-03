@@ -28,6 +28,11 @@ class UserResource extends BaseResource
                 'birthday' => $item->birthday,
                 'location' => $item->location,
                 'location_details' => $item->location_details,
+                'clinic_knowledge' => $item->clinic_knowledge,
+                'clinic_note' => $item->clinic_note,
+                'sickness' => $item->sickness,
+                'sensitive' => $item->sensitive,
+                'sensitive_note' => $item->sensitive_note,
                 'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null,
                 'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') : null,
             ];

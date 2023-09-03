@@ -31,7 +31,11 @@ class User extends Authenticatable
         'gender',
         'user_picture',
         'approved_at',
-        'approved_by',
+        'clinic_knowledge',
+        'clinic_note',
+        'sickness',
+        'sensitive',
+        'sensitive_note',
     ];
 
     /**

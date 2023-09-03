@@ -20,6 +20,7 @@ class Session extends Model
         'description',
         'payment_type',
         'financial_account_id',
+        'xray_picture',
     ];
 
     public function financialAccount()

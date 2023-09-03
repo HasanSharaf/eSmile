@@ -37,6 +37,7 @@ class SessionResource extends BaseResource
                 'payment_type' => $item->payment_type,
                 'remaining_cost' => $item->remaining_cost,
                 'description' => $item->description,
+                'xray_picture' => $item->xray_picture,
                 'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null,
                 'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') ?? null : $item->updated_at,
                 'subSessions' => $item->subSession->map(function ($subSession) {
