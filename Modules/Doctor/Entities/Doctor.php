@@ -26,10 +26,7 @@ class Doctor extends Model
         'gender',
         'doctor_picture',
         'competence_type',
-        'start_day',
-        'end_day',
-        'start_time',
-        'end_time',
+        'availability_type'
     ];
 
     /**
@@ -55,4 +52,10 @@ class Doctor extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function doctorWorkTime()
+    {
+        return $this->hasMany(DoctorWorkTimes::class);
+    }
+    
 }

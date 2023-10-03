@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ESelectAvailableTime;
 use App\Models\EWeekDayType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,25 +23,9 @@ return new class extends Migration
             ECompetenceType::COSMETIC_DENTISTRY,
             ECompetenceType::CHILDRENS_DENTISTRY,
             ECompetenceType::NEUROLOGY_IN_DENTISTRY,
-            ])->before('type');
-            $table->enum('start_day',[EWeekDayType::SATURDAY,
-            EWeekDayType::SUNDAY,
-            EWeekDayType::MONDAY,
-            EWeekDayType::TUESDAY,
-            EWeekDayType::WEDNESDAY,
-            EWeekDayType::THURSDAY,
-            EWeekDayType::FRIDAY,
-            ])->after('competence_type');
-            $table->enum('end_day',[EWeekDayType::FRIDAY,
-            EWeekDayType::THURSDAY,
-            EWeekDayType::WEDNESDAY,
-            EWeekDayType::TUESDAY,
-            EWeekDayType::MONDAY,
-            EWeekDayType::SUNDAY,
-            EWeekDayType::SATURDAY,
-            ])->after('start_day');
-            $table->time('start_time')->after('end_day');
-            $table->time('end_time')->after('start_time');
+            ])->after('type');
+            $table->enum('availability_type', [ESelectAvailableTime::FULL_TIME, ESelectAvailableTime::PART_TIME])
+            ->nullable()->after('competence_type');
         });
     }
 
@@ -53,10 +38,7 @@ return new class extends Migration
     {
         Schema::table('doctors', function (Blueprint $table) {
             $table->dropColumn('competence_type');
-            $table->dropColumn('start_day');
-            $table->dropColumn('end_day');
-            $table->dropColumn('start_time');
-            $table->dropColumn('end_time');
+            $table->dropColumn('availability_type');
         });
     }
 };

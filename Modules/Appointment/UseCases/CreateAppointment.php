@@ -38,7 +38,7 @@ class CreateAppointment
         try {
             $appointment = $this->appointmentRepository->createAppointment($user_id, $doctor_id, $data);
             // dd($appointment);
-            return new UseCaseResult(ResponseStatus::successCode, new AppointmentResource([$appointment]), 1, '');
+            return new UseCaseResult(ResponseStatus::successCreate, new AppointmentResource([$appointment]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

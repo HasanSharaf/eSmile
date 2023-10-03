@@ -40,11 +40,15 @@ class AppointmentResource extends BaseResource
                     'doctor_location' => $item->doctor->location,
                     'doctor_location_details' => $item->doctor->location_details,
                     'years_of_experience' => $item->doctor->years_of_experience,
+                    'availability_type' => $item->doctor->availability_type,
                     'competence_type' => $item->doctor->competence_type,
-                    'start_day' => $item->doctor->start_day,
-                    'end_day' => $item->doctor->end_day,
-                    'start_time' => $item->doctor->start_time,
-                    'end_time' => $item->doctor->end_time,
+                    'availability' => $item->doctor->doctorWorkTime->map(function ($availability) {
+                        return [
+                            'day_of_week' => $availability->day_of_week,
+                            'start_time' => $availability->start_time,
+                            'end_time' => $availability->end_time,
+                        ];
+                    }),
                     'selected_time' => $item->selected_time ? Carbon::parse($item->selected_time)->format('m/d/Y H:i') : null ,
                     'note' => $item->note,
                     'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null ,

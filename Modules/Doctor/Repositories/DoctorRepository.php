@@ -3,6 +3,7 @@
 namespace Modules\Doctor\Repositories;
 
 use App\Helpers\Classes\Translator;
+use App\Models\ESelectAvailableTime;
 use App\Models\EType;
 use App\Models\EWeekDayType;
 use App\Repositories\BaseRepository;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Modules\Doctor\Entities\Doctor;
 use Laravel\Sanctum\PersonalAccessToken;
+use Modules\Doctor\Entities\DoctorWorkTimes;
 use Modules\Doctor\Models\ECompetenceType;
 use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
@@ -39,12 +41,29 @@ class DoctorRepository extends EloquentBaseRepository
             'years_of_experience' => $data['years_of_experience'],
             'type' => EType::DOCTOR,
             'competence_type' => $data['competence_type'],
-            'start_day' => $data['start_day'],
-            'end_day' => $data['end_day'],
-            'start_time' => $data['start_time'],
-            'end_time' => $data['end_time'],   
+            'availability_type' => $data['availability_type'],
         ]);
-    
+
+        if ($data['availability_type'] === ESelectAvailableTime::FULL_TIME) {
+            $fullTimeDays = [
+                EWeekDayType::SUNDAY, EWeekDayType::MONDAY, EWeekDayType::TUESDAY,
+                EWeekDayType::WEDNESDAY, EWeekDayType::THURSDAY
+            ];
+            $startTime = '08:00';
+            $endTime = '16:00';
+            $daysAsFullTime = [];
+            foreach ($fullTimeDays as $key => $day) {
+                $obj['day_of_week'] = $day;
+                $obj['start_time'] = $startTime;
+                $obj['end_time'] = $endTime;
+                $daysAsFullTime[] = $obj;
+            }
+            $doctor->doctorWorkTime()->createMany($daysAsFullTime ?? []);
+        } 
+        elseif ($data['availability_type'] === ESelectAvailableTime::PART_TIME) {
+            $doctor->doctorWorkTime()->createMany($data['days'] ?? []);
+        }
+
         if ($data->hasFile('doctor_picture') && $data->file('doctor_picture')->isValid()) {
             $doctorPicture = $data->file('doctor_picture');
             $extension = $doctorPicture->getClientOriginalExtension();
@@ -96,11 +115,9 @@ class DoctorRepository extends EloquentBaseRepository
         $doctor->location_details = $data['location_details'] ?? $doctor->location_details;
         $doctor->birthday = $data['birthday'] ?? $doctor->birthday;
         $doctor->type = $data['type'] ?? $doctor->type;
+        $doctor->availability_type = $data['availability_type'] ?? $doctor->availability_type;
         $doctor->competence_type = $data['competence_type'] ?? $doctor->competence_type;
-        $doctor->start_day = $data['start_day'] ?? $doctor->start_day;
-        $doctor->end_day = $data['end_day'] ?? $doctor->end_day;
-        $doctor->start_time = $data['start_time'] ?? $doctor->start_time;
-        $doctor->end_time = $data['end_time'] ?? $doctor->end_time;
+        
         
 
         // Check if the provided type is valid
@@ -118,6 +135,33 @@ class DoctorRepository extends EloquentBaseRepository
             $pictureName = uniqid('doctorPic') . '.' . $extension;
             $data['doctor_picture']->storeAs('public/pictures', $pictureName);
             $doctor->doctor_picture = 'pictures/' . $pictureName;
+        }
+
+        if ($data['availability_type'] === ESelectAvailableTime::FULL_TIME) {
+            // Update work times for full-time doctors
+            $fullTimeDays = [
+                EWeekDayType::SUNDAY, EWeekDayType::MONDAY, EWeekDayType::TUESDAY,
+                EWeekDayType::WEDNESDAY, EWeekDayType::THURSDAY
+            ];
+            $startTime = '08:00';
+            $endTime = '16:00';
+            $daysAsFullTime = [];
+
+            foreach ($fullTimeDays as $key => $day) {
+                $obj['day_of_week'] = $day;
+                $obj['start_time'] = $startTime;
+                $obj['end_time'] = $endTime;
+                $daysAsFullTime[] = $obj;
+            }
+
+            // Delete existing work times and create new ones
+            $doctor->doctorWorkTime()->delete();
+            $doctor->doctorWorkTime()->createMany($daysAsFullTime);
+        } 
+        elseif ($data['availability_type'] === ESelectAvailableTime::PART_TIME && isset($data['days'])) {
+            // Update work times for part-time doctors
+            $doctor->doctorWorkTime()->delete(); // Delete existing work times
+            $doctor->doctorWorkTime()->createMany($data['days']);
         }
 
         $doctor->save();
