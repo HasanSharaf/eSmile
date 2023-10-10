@@ -8,14 +8,14 @@ class Translator
 
 
     public static function translate($key){
-        $language = app('request')->headers->all()['language'][0] ?? 'it';
+        $language = app('request')->headers->all()['language'][0] ?? 'en';
         switch ($language) {
-            case 'en':
-                return  config('en.'.$key) ?? $key;
+            case 'it':
+                return  config('it.'.$key) ?? $key;
                 break;
-            //it
+            //en
             default:
-            return  config('it.'.$key) ?? $key;
+            return  config('en.'.$key) ?? $key;
                 # code...
                 break;
         }

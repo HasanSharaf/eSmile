@@ -4,6 +4,7 @@
 namespace Modules\Session\Http\Resources;
 use App\Http\Resources\BaseResource;
 use Carbon\Carbon;
+use Modules\Doctor\Http\Resources\DoctorResource;
 use Modules\SubSession\Http\Resources\SubSessionResource;
 
 class SessionResource extends BaseResource
@@ -29,8 +30,33 @@ class SessionResource extends BaseResource
     {
         $this->collection = $this->collection->map(function ($item) {
             $item->loadMissing('financialAccount');
+            // $item->loadMissing('financialAccount', 'session.doctor'); // Load session and sub session relationships
+
             $dataToReturn = [
                 'id' => $item->id,
+                'doctor' => [
+                    'doctor_id' => $item->doctor_id,
+                    'first_name' => $item->doctor->first_name,
+                    'last_name' => $item->doctor->last_name,
+                    'email' => $item->doctor->email,
+                    'gender' => $item->doctor->gender,
+                    'doctor_picture' => $item->doctor->doctor_picture,
+                    'phone_number' => $item->doctor->phone_number,
+                    'birthday' => $item->doctor->birthday,
+                    'location' => $item->doctor->location,
+                    'location_details' => $item->doctor->location_details,
+                    'years_of_experience' => $item->doctor->years_of_experience,
+                    'type' => $item->doctor->type,
+                    'competence_type' => $item->doctor->competence_type,
+                    'availability_type' => $item->doctor->availability_type,
+                    'availability' => $item->doctor->doctorWorkTime->map(function ($availability) {
+                        return [
+                            'day_of_week' => $availability->day_of_week,
+                            'start_time' => $availability->start_time,
+                            'end_time' => $availability->end_time,
+                        ];
+                    }),
+                ],
                 'financial_account_id' => $item->financialAccount->id,
                 'full_cost' => $item->full_cost,
                 'paid' => $item->paid,
@@ -50,6 +76,8 @@ class SessionResource extends BaseResource
                         'updatedAt' => $subSession->updated_at ? Carbon::parse($subSession->updated_at)->format('m/d/Y H:i') : null,
                     ];
                 }),
+                    'createdAt' => $item->doctor->created_at ? Carbon::parse($item->doctor->created_at)->format('m/d/Y H:i') : null,
+                    'updatedAt' => $item->doctor->updated_at ? Carbon::parse($item->doctor->updated_at)->format('m/d/Y H:i') ?? null : $item->doctor->updated_at,
             ];
 
             $additionalData = [
@@ -65,4 +93,5 @@ class SessionResource extends BaseResource
 
         return $this->resolvePaginationResults($this);
     }
+    
 }

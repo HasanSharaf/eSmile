@@ -33,10 +33,10 @@ class CreateSession
      * Create Session.
      * @return Session
      */
-    public function execute($user_id,$data)
+    public function execute($user_id, $data)
     {
         try {
-            $session = $this->sessionRepository->createSession($user_id,$data);
+            $session = $this->sessionRepository->createSession($user_id, $data);
             return new UseCaseResult(ResponseStatus::successCreate, new SessionResource([$session]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();

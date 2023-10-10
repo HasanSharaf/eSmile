@@ -41,6 +41,7 @@ class SessionRepository extends EloquentBaseRepository
     */
     public function createSession($user_id, $data)
     {
+        $sessions = Session::with('doctor')->get();
         $financialAccount = FinancialAccount::where('user_id', $user_id)->first();
 
         if (!$financialAccount) {
@@ -51,6 +52,7 @@ class SessionRepository extends EloquentBaseRepository
         $createdSession = Session::create([
             'financial_account_id' => $financialAccount->id,
             'user_id' => $user_id,
+            'doctor_id' => $data['doctor_id'],
             'full_cost' => $data['full_cost'],
             'payment_type' => $data['payment_type'],
             'description' => $data['description'],
@@ -94,10 +96,12 @@ class SessionRepository extends EloquentBaseRepository
     public  function updateSession($session_id,$data)
     {
         try {
+            $sessions = Session::with('doctor')->get();
             $session = Session::findOrFail($session_id);
         } catch (\Throwable $th) {
             throw new \Exception(Translator::translate("SESSIONS.SESSION_NOT_FOUND"), 404);
         }
+        $session->doctor_id = $data['doctor_id'] ?? $session->doctor_id;
         $session->full_cost = $data['full_cost'] ?? $session->full_cost;
         $session->paid = $data['paid'] ?? $session->paid;
         $session->remaining_cost = $session->full_cost - $session->paid;
