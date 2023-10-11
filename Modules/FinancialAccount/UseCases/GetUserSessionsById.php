@@ -10,6 +10,7 @@ use App\Models\ResponseStatus;
 use Illuminate\Support\Facades\Request;
 use Modules\FinancialAccount\Http\Resources\FinancialAccountResource;
 use Modules\FinancialAccount\Repositories\FinancialAccountRepository;
+use Modules\Session\Http\Resources\UserSessionResource;
 
 /**
  * Class GetUserSessionsById
@@ -38,7 +39,7 @@ class GetUserSessionsById
     {
         try {
             $sessions = $this->financialAccountRepository->getUserSessionsById($user_id);
-            return new UseCaseResult(ResponseStatus::successCode, new SessionResource($sessions), count([$sessions]), '');
+            return new UseCaseResult(ResponseStatus::successCode, new UserSessionResource($sessions), count([$sessions]), '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {
