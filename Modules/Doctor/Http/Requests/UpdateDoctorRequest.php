@@ -27,8 +27,7 @@ class UpdateDoctorRequest extends FormRequest
             'gender' => [
                 Rule::in(EDoctorGender::DOCTOR_ARR)
             ],
-            'phone_number' => ['numeric','min:10'],
-            'phone_number' => ['numeric','max:99'],
+            'phone_number' => ['numeric','max:10'],
             'birthday' => ['date'],
             'location' => ['string','min:3','max:255'],
             'location_details' => ['string','min:3','max:255'],

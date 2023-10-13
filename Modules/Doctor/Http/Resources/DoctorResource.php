@@ -15,8 +15,7 @@ class DoctorResource extends BaseResource
      */
     public function toArray($request)
     {
-        try {
-            $this->collection = $this->collection->map(function ($item) {
+        return $this->collection->map(function ($item) {
                 return [
                     'id' => $item->id,
                     'first_name' => $item->first_name,
@@ -43,10 +42,6 @@ class DoctorResource extends BaseResource
                     'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') ?? null : $item->updated_at,
                 ];
             });
-            return $this->resolvePaginationResults($this);
-        } catch (\Throwable $th) {
-            dd('aaa');
-        }
     }
 }
 

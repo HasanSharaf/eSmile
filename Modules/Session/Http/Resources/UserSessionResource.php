@@ -33,29 +33,29 @@ class UserSessionResource extends BaseResource
 
             $dataToReturn = [
                 'id' => $item->id,
-                // 'doctor' => [
-                //     'doctor_id' => $item->doctor_id,
-                //     'first_name' => $item->doctor->first_name,
-                //     'last_name' => $item->doctor->last_name,
-                //     'email' => $item->doctor->email,
-                //     'gender' => $item->doctor->gender,
-                //     'doctor_picture' => $item->doctor->doctor_picture,
-                //     'phone_number' => $item->doctor->phone_number,
-                //     'birthday' => $item->doctor->birthday,
-                //     'location' => $item->doctor->location,
-                //     'location_details' => $item->doctor->location_details,
-                //     'years_of_experience' => $item->doctor->years_of_experience,
-                //     'type' => $item->doctor->type,
-                //     'competence_type' => $item->doctor->competence_type,
-                //     'availability_type' => $item->doctor->availability_type,
-                //     'availability' => $item->doctor->doctorWorkTime->map(function ($availability) {
-                //         return [
-                //             'day_of_week' => $availability->day_of_week,
-                //             'start_time' => $availability->start_time,
-                //             'end_time' => $availability->end_time,
-                //         ];
-                //     }),
-                // ],
+                'doctor' => [
+                    'doctor_id' => $item->doctor_id,
+                    'first_name' => $item->doctor->first_name,
+                    'last_name' => $item->doctor->last_name,
+                    'email' => $item->doctor->email,
+                    'gender' => $item->doctor->gender,
+                    'doctor_picture' => $item->doctor->doctor_picture,
+                    'phone_number' => $item->doctor->phone_number,
+                    'birthday' => $item->doctor->birthday,
+                    'location' => $item->doctor->location,
+                    'location_details' => $item->doctor->location_details,
+                    'years_of_experience' => $item->doctor->years_of_experience,
+                    'type' => $item->doctor->type,
+                    'competence_type' => $item->doctor->competence_type,
+                    'availability_type' => $item->doctor->availability_type,
+                    'availability' => $item->doctor->doctorWorkTime->map(function ($availability) {
+                        return [
+                            'day_of_week' => $availability->day_of_week,
+                            'start_time' => $availability->start_time,
+                            'end_time' => $availability->end_time,
+                        ];
+                    }),
+                ],
                 'financial_account_id' => $item->financialAccount->id,
                 'full_cost' => $item->full_cost,
                 'paid' => $item->paid,

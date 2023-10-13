@@ -14,6 +14,7 @@ use Modules\Session\Http\Resources\SessionResource;
 use App\Models\ResponseStatus;
 use Illuminate\Support\Facades\Request;
 use Maatwebsite\Excel\Concerns\ToArray;
+use Modules\Session\Http\Resources\UserSessionResource;
 use Modules\Session\Models\SessionFilterKey;
 use Modules\Session\Models\SessionSortKey;
 
@@ -50,7 +51,7 @@ class ListSessions
             $sortQuery = SortHelper::sort($data['order_key'], $data['order'], SessionSortKey::KEYS_ARR, $filterQuery);
 
             $result = $this->sessionRepository->getAllSessions($data, $sortQuery);
-            return new UseCaseResult(ResponseStatus::successCode, new SessionResource($result, false), $result->count(), '');
+            return new UseCaseResult(ResponseStatus::successCode, new UserSessionResource($result, false), $result->count(), '');
             
         } catch (\Throwable $th) {
             $message = $th->getMessage();

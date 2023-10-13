@@ -11,6 +11,7 @@ use Modules\Appointment\UseCases\CreateAppointment;
 use Modules\Appointment\UseCases\CreateAppointmentFromDoctor;
 use Modules\Appointment\UseCases\DeleteAppointment;
 use Modules\Appointment\UseCases\GetAppointmentsByUserId;
+use Modules\Appointment\UseCases\GetDoctorAppointments;
 use Modules\Appointment\UseCases\ListAppointment;
 use Modules\Appointment\UseCases\ListAppointments;
 
@@ -35,7 +36,7 @@ class AppointmentController extends Controller
     */
     public function createAppointment($user_id, CreateAppointmentRequest $request, CreateAppointment $createAppointment)
     {
-        $doctor_id = $request->input('doctor_id'); // Get the selected doctor_id from the request
+        $doctor_id = $request->input('doctor_id');
         $result = $createAppointment->execute($user_id, $doctor_id, $request->all());
         return $this->handleResponse($result);
     }
@@ -82,6 +83,16 @@ class AppointmentController extends Controller
         return $this->handleResponse($result);
     }
 
+    /**
+    * Get Doctor Appointments.
+    * @return Response
+    */
+    public function getDoctorAppointments($doctor_id, Request $request, GetDoctorAppointments $getDoctorAppointments)
+    {
+        $selected_date = $request->input('selected_date');
+        $result = $getDoctorAppointments->execute($doctor_id, $selected_date);
+        return $this->handleResponse($result);
+    }
 
 
 }

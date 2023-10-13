@@ -56,6 +56,8 @@ class SessionResource extends BaseResource
                             'end_time' => $availability->end_time,
                         ];
                     }),
+                    'createdAt' => $item->doctor->created_at ? Carbon::parse($item->doctor->created_at)->format('m/d/Y H:i') : null,
+                    'updatedAt' => $item->doctor->updated_at ? Carbon::parse($item->doctor->updated_at)->format('m/d/Y H:i') ?? null : $item->doctor->updated_at,
                 ],
                 'financial_account_id' => $item->financialAccount->id,
                 'full_cost' => $item->full_cost,
@@ -76,8 +78,6 @@ class SessionResource extends BaseResource
                         'updatedAt' => $subSession->updated_at ? Carbon::parse($subSession->updated_at)->format('m/d/Y H:i') : null,
                     ];
                 }),
-                    'createdAt' => $item->doctor->created_at ? Carbon::parse($item->doctor->created_at)->format('m/d/Y H:i') : null,
-                    'updatedAt' => $item->doctor->updated_at ? Carbon::parse($item->doctor->updated_at)->format('m/d/Y H:i') ?? null : $item->doctor->updated_at,
             ];
 
             $additionalData = [

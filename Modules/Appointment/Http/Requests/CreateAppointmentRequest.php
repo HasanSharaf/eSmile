@@ -14,10 +14,10 @@ class CreateAppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'user_id' => 'required|exists:users,id',
-            'selected_time' => 'required|date_format:Y-m-d H:i',
+            'selected_date' => 'required|date_format:Y-m-d',
+            'selected_time' => 'required|date_format:H:i',
             'note' => 'nullable|string',
-            
+            'doctor_id' => 'required|exists:doctors,id',   
         ];
     }
 

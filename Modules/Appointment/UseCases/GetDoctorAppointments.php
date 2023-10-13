@@ -9,13 +9,14 @@ use Modules\Appointment\Repositories\AppointmentRepository;
 use Modules\Appointment\Http\Resources\AppointmentResource;
 use App\Models\ResponseStatus;
 use Illuminate\Support\Facades\Request;
+use Modules\Appointment\Http\Resources\GetDoctorAppointmentResource;
 
 /**
- * Class CreateAppointment
+ * Class GetDoctorAppointments
  *
  * @package Modules\Appointment\UseCases
  */
-class CreateAppointment
+class GetDoctorAppointments
 {
 
    private $appointmentRepository ;
@@ -30,14 +31,17 @@ class CreateAppointment
     }
 
     /**
-     * Create Appointment.
+     * Get Appointments By Doctor Id.
      * @return Appointment
      */
-    public function execute($user_id, $doctor_id, $data)
+    public function execute($doctor_id, $selected_date)
     {
         try {
-            $appointment = $this->appointmentRepository->createAppointment($user_id, $doctor_id, $data);
-            return new UseCaseResult(ResponseStatus::successCreate, new AppointmentResource([$appointment]), 1, '');
+            $appointments = $this->appointmentRepository->getDoctorAppointments($doctor_id, $selected_date);
+            if ($appointments->isEmpty()) {
+                return new UseCaseResult(ResponseStatus::baseErrorCode, null, 0, 'No appointments found for the specified date.');
+            }
+            return new UseCaseResult(ResponseStatus::successCode, new GetDoctorAppointmentResource($appointments), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {
@@ -46,6 +50,8 @@ class CreateAppointment
             return new UseCaseResult(ResponseStatus::baseErrorCode, null, 0, $message);
         }
     }
+    
+    
   
 
 }

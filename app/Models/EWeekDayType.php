@@ -14,4 +14,14 @@ class EWeekDayType
     public const THURSDAY = 'thursday';
     public const FRIDAY = 'friday';
    
+    public const WEEKDAY_ARR = [
+    self::SUNDAY,
+    self::MONDAY, 
+    self::TUESDAY, 
+    self::WEDNESDAY, 
+    self::THURSDAY, 
+    self::FRIDAY, 
+    self::SATURDAY
+    ];
+
 }

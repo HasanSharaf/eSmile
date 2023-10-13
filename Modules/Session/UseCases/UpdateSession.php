@@ -9,6 +9,7 @@ use Modules\Session\Repositories\SessionRepository;
 use Modules\Session\Http\Resources\SessionResource;
 use App\Models\ResponseStatus;
 use Illuminate\Support\Facades\Request;
+use Modules\Session\Http\Resources\UserSessionResource;
 
 /**
  * Class UpdateSession
@@ -37,7 +38,7 @@ class UpdateSession
     {
         try {
             $session = $this->sessionRepository->updateSession($session_id,$data);
-            return new UseCaseResult(ResponseStatus::successCode, new SessionResource([$session]), 1, '');
+            return new UseCaseResult(ResponseStatus::successCode, new UserSessionResource([$session]), 1, '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {
