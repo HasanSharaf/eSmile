@@ -80,18 +80,16 @@ class AppointmentRepository extends EloquentBaseRepository
      */
     public function getAppointmentQuery()
     {
-        return Appointment::with(['user']);
+        return Appointment::with(['user','doctor']);
     }
 
     /**
     * Get Appointments By Doctor Id
     * @return Appointment
     */
-    public function getDoctorAppointments($doctor_id, $selected_date)
+    public function getDoctorAppointments($selected_date)
     {
-        return Appointment::where('doctor_id', $doctor_id)
-            ->whereDate('selected_date', $selected_date)
-            ->get();
+        return Appointment::where('selected_date', '=', $selected_date)->get();
     }
 
 }

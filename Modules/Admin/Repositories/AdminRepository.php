@@ -34,7 +34,7 @@ class AdminRepository extends EloquentBaseRepository
             $adminPicture = $data->file('admin_picture');
             $extension = $adminPicture->getClientOriginalExtension();
             $pictureName = uniqid('adminPic') . '.' . $extension;
-            $adminPicture->storeAs('public/pictures', $pictureName);
+            $adminPicture->storeAs('laravel_project/public/pictures', $pictureName);
             $admin->admin_picture = 'pictures/' . $pictureName;
             $admin->save();
         }
@@ -97,7 +97,7 @@ class AdminRepository extends EloquentBaseRepository
 
             $extension = $data['admin_picture']->getClientOriginalExtension();
             $pictureName = uniqid('adminPic') . '.' . $extension;
-            $data['admin_picture']->storeAs('public/pictures', $pictureName);
+            $data['admin_picture']->storeAs('laravel_project/public/pictures', $pictureName);
             $admin->admin_picture = 'pictures/' . $pictureName;
         }
 

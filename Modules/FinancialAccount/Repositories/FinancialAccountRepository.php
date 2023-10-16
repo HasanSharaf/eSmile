@@ -21,21 +21,18 @@ class FinancialAccountRepository extends EloquentBaseRepository
     */
     public function createFinancialAccount($user_id, $data)
     {
-        // Check if the user exists
         $user = User::find($user_id);
         if (!$user) {
             throw new \Exception("USERS.USER_NOT_FOUND");
         }
 
-        // Create a new financial account for the user
         $financialAccount = FinancialAccount::create([
             'user_id' => $user_id,
-            'paid' => $data['paid'], // Store the paid value
-            'full_cost' => $data['full_cost'], // Store the full_cost value
-            'remaining_cost' => $data['full_cost'] - $data['paid'] , // Store the remaining_cost value as full_cost initially
+            'paid' => $data['paid'],
+            'full_cost' => $data['full_cost'],
+            'remaining_cost' => $data['full_cost'] - $data['paid'] ,
         ]);
 
-        // Create a new session with the financial_account_id and user_id
         $createdSession = Session::create([
             'financial_account_id' => $financialAccount->id,
             'user_id' => $user_id,
@@ -46,7 +43,6 @@ class FinancialAccountRepository extends EloquentBaseRepository
             'description' => $data['description'],
         ]);
 
-        // Create a new subSession with the paid value, description, and payment_type from the input data
         $subSessionData = [
             'session_id' => $createdSession->id,
             'paid' => $data['paid'],
@@ -56,7 +52,6 @@ class FinancialAccountRepository extends EloquentBaseRepository
 
         SubSession::create($subSessionData);
 
-        // Update the paid and remaining_cost values in the financial account
         $financialAccount->paid = $data['paid'];
         $financialAccount->remaining_cost = $data['full_cost'] - $data['paid'];
         $financialAccount->save();
@@ -71,9 +66,11 @@ class FinancialAccountRepository extends EloquentBaseRepository
     */
     public function getUserSessionsById($user_id)
     {
-        return Session::whereHas('financialAccount', function ($query) use ($user_id) {
-            $query->where('user_id', $user_id);
-        })->get();
+        $sessions = Session::all();
+        $filteredSessions = $sessions->filter(function ($session) use ($user_id) {
+            return $session->financialAccount->user_id == $user_id;
+        });
+        return $filteredSessions;
     }
 
     /**

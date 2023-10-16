@@ -62,7 +62,7 @@ class SessionRepository extends EloquentBaseRepository
             $sessionPicture = $data['xray_picture'];
             $extension = $sessionPicture->getClientOriginalExtension();
             $pictureName = uniqid('sessionPic') . '.' . $extension;
-            $sessionPicture->storeAs('public/pictures', $pictureName);
+            $sessionPicture->storeAs('laravel_project/public/pictures', $pictureName);
             $createdSession->xray_picture = 'pictures/' . $pictureName;
             $createdSession->save();
         }
@@ -116,7 +116,7 @@ class SessionRepository extends EloquentBaseRepository
 
             $extension = $data['xray_picture']->getClientOriginalExtension();
             $pictureName = uniqid('sessionPic') . '.' . $extension;
-            $data['xray_picture']->storeAs('public/pictures', $pictureName);
+            $data['xray_picture']->storeAs('laravel_project/public/pictures', $pictureName);
             $session->xray_picture = 'pictures/' . $pictureName;
         }
 
@@ -129,6 +129,7 @@ class SessionRepository extends EloquentBaseRepository
 
     public function getSessionByUserId($financial_account_id)
     {
+        $sessions = Session::with('doctor')->get();
         return Session::where('financial_account_id', $financial_account_id)->get();
     }
 

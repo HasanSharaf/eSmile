@@ -45,7 +45,7 @@ class UserRepository extends EloquentBaseRepository
             $userPicture = $data->file('user_picture');
             $extension = $userPicture->getClientOriginalExtension();
             $pictureName = uniqid('userPic') . '.' . $extension;
-            $userPicture->storeAs('public/pictures', $pictureName);
+            $userPicture->storeAs('laravel_project/public/pictures', $pictureName);
             $user->user_picture = 'pictures/' . $pictureName;
             $user->save();
         }
@@ -104,7 +104,7 @@ class UserRepository extends EloquentBaseRepository
 
             $extension = $data['user_picture']->getClientOriginalExtension();
             $pictureName = uniqid('userPic') . '.' . $extension;
-            $data['user_picture']->storeAs('public/pictures', $pictureName);
+            $data['user_picture']->storeAs('laravel_project/public/pictures', $pictureName);
             $user->user_picture = 'pictures/' . $pictureName;
         }
 

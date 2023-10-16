@@ -68,7 +68,7 @@ class DoctorRepository extends EloquentBaseRepository
             $doctorPicture = $data->file('doctor_picture');
             $extension = $doctorPicture->getClientOriginalExtension();
             $pictureName = uniqid('doctorPic') . '.' . $extension;
-            $doctorPicture->storeAs('public/pictures', $pictureName);
+            $doctorPicture->storeAs('laravel_project/public/pictures', $pictureName);
             $doctor->doctor_picture = 'pictures/' . $pictureName;
             $doctor->save();
         }
@@ -133,7 +133,7 @@ class DoctorRepository extends EloquentBaseRepository
 
             $extension = $data['doctor_picture']->getClientOriginalExtension();
             $pictureName = uniqid('doctorPic') . '.' . $extension;
-            $data['doctor_picture']->storeAs('public/pictures', $pictureName);
+            $data['doctor_picture']->storeAs('laravel_project/public/pictures', $pictureName);
             $doctor->doctor_picture = 'pictures/' . $pictureName;
         }
 

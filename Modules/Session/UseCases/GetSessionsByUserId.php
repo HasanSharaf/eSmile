@@ -9,6 +9,7 @@ use Modules\Session\Repositories\SessionRepository;
 use Modules\Session\Http\Resources\SessionResource;
 use App\Models\ResponseStatus;
 use Illuminate\Support\Facades\Request;
+use Modules\Session\Http\Resources\UserSessionResource;
 
 /**
  * Class GetSessionsByUserId
@@ -37,7 +38,7 @@ class GetSessionsByUserId
     {
         try {
             $appointments = $this->sessionRepository->getSessionByUserId($user_id);
-            return new UseCaseResult(ResponseStatus::successCode, new SessionResource($appointments), count($appointments), '');
+            return new UseCaseResult(ResponseStatus::successCode, new UserSessionResource($appointments), count($appointments), '');
         } catch (\Throwable $th) {
             $message = $th->getMessage();
             if (config('app.debug')) {

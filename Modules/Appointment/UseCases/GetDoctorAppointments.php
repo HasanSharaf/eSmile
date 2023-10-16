@@ -34,10 +34,10 @@ class GetDoctorAppointments
      * Get Appointments By Doctor Id.
      * @return Appointment
      */
-    public function execute($doctor_id, $selected_date)
+    public function execute($selected_date)
     {
         try {
-            $appointments = $this->appointmentRepository->getDoctorAppointments($doctor_id, $selected_date);
+            $appointments = $this->appointmentRepository->getDoctorAppointments($selected_date);
             if ($appointments->isEmpty()) {
                 return new UseCaseResult(ResponseStatus::baseErrorCode, null, 0, 'No appointments found for the specified date.');
             }

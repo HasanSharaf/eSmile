@@ -75,7 +75,7 @@ class AppointmentResource extends BaseResource
                         'updatedAt' => $item->doctor->updated_at ? Carbon::parse($item->doctor->updated_at)->format('m/d/Y H:i') ?? null : $item->doctor->updated_at,
                     ],
                     'selected_time' => $item->selected_time ? Carbon::parse($item->selected_time)->format('H:i') : null ,
-                    'selected_date' => $item->selected_time ? Carbon::parse($item->selected_time)->format('m/d/Y') : null ,
+                    'selected_date' => $item->selected_date ? Carbon::parse($item->selected_date)->format('m/d/Y') : null ,
                     'note' => $item->note,
                     'createdAt' => $item->created_at ? Carbon::parse($item->created_at)->format('m/d/Y H:i') : null ,
                     'updatedAt' => $item->updated_at ? Carbon::parse($item->updated_at)->format('m/d/Y H:i') ?? null :$item->updated_at,

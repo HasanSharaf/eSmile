@@ -87,10 +87,10 @@ class AppointmentController extends Controller
     * Get Doctor Appointments.
     * @return Response
     */
-    public function getDoctorAppointments($doctor_id, Request $request, GetDoctorAppointments $getDoctorAppointments)
+    public function getDoctorAppointments(Request $request, GetDoctorAppointments $getDoctorAppointments)
     {
         $selected_date = $request->input('selected_date');
-        $result = $getDoctorAppointments->execute($doctor_id, $selected_date);
+        $result = $getDoctorAppointments->execute($selected_date);
         return $this->handleResponse($result);
     }
 
