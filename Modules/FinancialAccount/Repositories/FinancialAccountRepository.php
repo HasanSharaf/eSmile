@@ -22,12 +22,14 @@ class FinancialAccountRepository extends EloquentBaseRepository
     public function createFinancialAccount($user_id, $data)
     {
         $user = User::find($user_id);
+        $session = FinancialAccount::with('session.doctor')->get();
         if (!$user) {
             throw new \Exception("USERS.USER_NOT_FOUND");
         }
 
         $financialAccount = FinancialAccount::create([
             'user_id' => $user_id,
+            'doctor_id' => $data['doctor_id'],
             'paid' => $data['paid'],
             'full_cost' => $data['full_cost'],
             'remaining_cost' => $data['full_cost'] - $data['paid'] ,
@@ -36,6 +38,7 @@ class FinancialAccountRepository extends EloquentBaseRepository
         $createdSession = Session::create([
             'financial_account_id' => $financialAccount->id,
             'user_id' => $user_id,
+            'doctor_id' => $data['doctor_id'],
             'paid' => $data['paid'],
             'full_cost' => $data['full_cost'],
             'remaining_cost' => $data['full_cost'] - $data['paid'] ,
