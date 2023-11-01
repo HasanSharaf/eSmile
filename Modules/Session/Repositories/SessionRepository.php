@@ -14,6 +14,7 @@ use Modules\FinancialAccount\Entities\FinancialAccount;
 use Modules\Session\Entities\Session;
 use Modules\SubSession\Entities\SubSession;
 use Modules\User\Entities\User;
+use App\Observers\SessionObserver;
 
 class SessionRepository extends EloquentBaseRepository
 {
@@ -82,9 +83,6 @@ class SessionRepository extends EloquentBaseRepository
             'paid' => $createdSession->subSession()->sum('paid'),
             'remaining_cost' => $createdSession->full_cost - $createdSession->subSession()->sum('paid'),
         ]);
-
-        event(new SessionCreatedListener($createdSession));
-
         return $createdSession;
     }
     

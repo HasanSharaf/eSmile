@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Observers\SessionObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Modules\Session\Entities\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Session::observe(SessionObserver::class);
     }
 }
